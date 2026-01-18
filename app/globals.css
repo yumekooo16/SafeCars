@@ -20,7 +20,32 @@
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(to bottom right, #000000 0%, #27272a 50%, #000000 100%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 50%, rgba(23, 29, 46, 0.05), transparent 70%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(23, 29, 46, 0.05), transparent 50%);
+  pointer-events: none;
+  z-index: -1;
 }
