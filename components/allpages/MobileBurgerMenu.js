@@ -69,7 +69,7 @@ export default function MobileBurgerMenu() {
             onClick={closeMenu}
             className="text-3xl font-bold text-white hover:text-amber-500 transition-colors duration-300"
           >
-            Nos Ventes
+            Nos Vehicules
           </Link>
           <Link 
             href="/tarifs" 

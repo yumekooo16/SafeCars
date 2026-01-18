@@ -47,7 +47,7 @@ export default function NosVentes() {
 
       <main className="px-4 sm:px-6 lg:px-8 py-24 max-w-7xl mx-auto">
         <h1 className="text-5xl font-black mb-16 text-center bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent">
-          Nos ventes
+          Nos Vehicules Disponibles
         </h1>
 
         {/* Loader */}

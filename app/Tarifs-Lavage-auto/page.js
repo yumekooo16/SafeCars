@@ -1,20 +1,61 @@
 'use client';
 
+import React from 'react';
 import Header from '@/components/allpages/Header.js';
 import Footer from '@/components/allpages/Footer.js';
+import Link from 'next/link';
 
+/* =========================
+   Composant FAQ Item
+========================= */
+function FAQItem({ question, answer }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  return (
+    <div className="border border-gray-800 rounded-lg overflow-hidden bg-black/50 backdrop-blur-sm transition hover:border-white">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between p-4 md:p-6 text-left hover:bg-gray-700/30"
+        aria-expanded={isOpen}
+      >
+        <span className="text-base md:text-lg font-medium pr-6">
+          {question}
+        </span>
+        <svg
+          className={`w-6 h-6 transition-transform ${
+            isOpen ? 'rotate-180' : ''
+          }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
+
+      <div
+        className={`transition-all duration-300 ${
+          isOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        } overflow-hidden`}
+      >
+        <div className="p-4 md:p-6 pt-0 text-gray-300">
+          {answer}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* =========================
+   Page Tarifs Lavage Auto
+========================= */
 export default function TarifsLavageAuto() {
-  // Services de nettoyage extérieur
-  const exterieurServices = [
-    { name: 'Lavage complet (prélavage + lavage + rinçage)', price: 25 },
-    { name: 'Séchage microfibre professionnel', price: 10 },
-    { name: 'Cirage et protection carrosserie', price: 30 },
-    { name: 'Nettoyage des jantes et pneus', price: 15 },
-    { name: 'Déshuilage du compartiment moteur', price: 20 },
-    { name: 'Nettoyage complet des vitres', price: 12 },
-  ];
 
-  // Services de nettoyage intérieur
   const interieurServices = [
     { name: 'Aspiration complète (sièges + tapis + coffre)', price: 35 },
     { name: 'Nettoyage des sièges (professionnel)', price: 45 },
@@ -26,24 +67,29 @@ export default function TarifsLavageAuto() {
     { name: 'Nettoyage complet du coffre', price: 25 },
   ];
 
-  // Services premium
   const premiumServices = [
     { name: 'Traitement céramique (protection 12 mois)', price: 80 },
     { name: 'Detailing complet (intérieur + extérieur)', price: 150 },
     { name: 'Polissage de la peinture', price: 70 },
   ];
 
-  const ServiceSection = ({ title, services, icon }) => (
-    <div className="mb-12">
-      <h3 className="text-3xl font-bold mb-8 text-blue-400 flex items-center gap-3">
-        <span className="text-2xl">{icon}</span>
+  const ServiceSection = ({ title, services }) => (
+    <div className="mb-14">
+      <h3 className="text-3xl font-bold mb-8 text-blue-400">
         {title}
       </h3>
       <div className="space-y-4">
         {services.map((service, idx) => (
-          <div key={idx} className="flex justify-between items-center border-b border-zinc-700 pb-4 hover:border-blue-400/50 transition">
-            <span className="text-lg text-gray-200">{service.name}</span>
-            <span className="text-2xl font-bold text-blue-400 ml-4">{service.price}€</span>
+          <div
+            key={idx}
+            className="flex justify-between items-center border-b border-zinc-700 pb-4 hover:border-blue-400/50 transition"
+          >
+            <span className="text-lg text-gray-200">
+              {service.name}
+            </span>
+            <span className="text-2xl font-bold text-blue-400">
+              {service.price}€
+            </span>
           </div>
         ))}
       </div>
@@ -54,90 +100,84 @@ export default function TarifsLavageAuto() {
     <div className="bg-black text-white min-h-screen">
       <Header />
 
-      {/* Hero Section */}
-      <section className="mt-20 relative min-h-72 flex items-center justify-center py-16">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(251,191,36,0.1),transparent_50%)]"></div>
-        <div className="relative z-10 text-center px-4">
+      {/* HERO */}
+      <section className="mt-20 py-16 text-center relative">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.12),transparent_55%)]" />
+        <div className="relative z-10 px-4">
           <h1 className="text-5xl md:text-6xl font-bold mb-4">
             <span className="text-blue-400">Tarifs</span> Lavage Automobile
           </h1>
-          <p className="text-xl text-gray-300">Nettoyage professionnel intérieur et extérieur avec matériel haut de gamme</p>
+          <p className="text-xl text-gray-300">
+            Nettoyage professionnel intérieur et extérieur
+          </p>
         </div>
       </section>
 
-      {/* Contenu Principal */}
+      {/* CONTENU */}
       <section className="max-w-6xl mx-auto px-4 py-16">
-        {/* Info Important */}
         <div className="bg-blue-400/10 border-l-4 border-blue-400 p-6 mb-16 rounded">
-          <h2 className="text-blue-400 font-bold mb-2 text-lg">✓ Services Professionnels</h2>
-          <p className="text-gray-300">Tous nos services utilisent du matériel professionnel de haute qualité pour garantir le meilleur rendu et la protection optimale de votre véhicule.</p>
+          <h2 className="text-blue-400 font-bold mb-2">
+            ✓ Services Professionnels
+          </h2>
+          <p className="text-gray-300">
+            Matériel haut de gamme & finition premium.
+          </p>
         </div>
 
-        {/* Services */}
-        <ServiceSection 
-          title="Nettoyage Extérieur" 
-          services={exterieurServices}
-          
-        />
-        
-        <ServiceSection 
-          title="Nettoyage Intérieur" 
+        <ServiceSection
+          title="Nettoyage Intérieur"
           services={interieurServices}
-          
         />
 
-        <ServiceSection 
-          title="Services Premium" 
+        <ServiceSection
+          title="Services Premium"
           services={premiumServices}
-          
         />
 
-        {/* Info Pratiques */}
-        <div className="bg-gradient-to-br from-zinc-800 to-zinc-900 rounded-lg p-8 mt-16 border border-blue-400/30">
-          <h3 className="text-2xl font-bold text-blue-400 mb-6">Informations Pratiques</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-              <div className="text-blue-400 font-bold mb-2"> Durée estimée</div>
-              <p className="text-gray-300">1h à 3h selon les services choisis</p>
-            </div>
-            <div>
-              <div className="text-blue-400 font-bold mb-2"> Localisation</div>
-              <p className="text-gray-300">À domicile ou à notre atelier</p>
-            </div>
-            <div>
-              <div className="text-blue-400 font-bold mb-2">✓ Garantie</div>
-              <p className="text-gray-300">Satisfaction client garantie</p>
-            </div>
-          </div>
-        </div>
-
-        {/* CTA */}
         <div className="text-center mt-12">
-          <button className="bg-blue-400 text-black font-bold py-4 px-8 rounded-lg hover:bg-blue-300 transition text-lg">
-            Demander un Devis
-          </button>
+          <Link href="/contact">
+            <button className="bg-blue-400 text-black font-bold px-8 py-4 rounded-lg hover:bg-blue-300 transition text-lg">
+              Demander un devis
+            </button>
+          </Link>
         </div>
+      </section>
 
-        {/* FAQ Section */}
-        <div className="mt-20 border-t border-zinc-700 pt-16">
-          <h2 className="text-3xl font-bold mb-10 text-blue-400">Questions Fréquentes</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-zinc-800 p-6 rounded-lg">
-              <h4 className="text-lg font-bold text-blue-400 mb-3">Quel type de produits utilisez-vous ?</h4>
-              <p className="text-gray-300">Nous utilisons exclusivement des produits professionnels haut de gamme, sans danger pour votre véhicule et respectueux de l'environnement.</p>
-            </div>
-            <div className="bg-zinc-800 p-6 rounded-lg">
-              <h4 className="text-lg font-bold text-blue-400 mb-3">Combien de temps dure un nettoyage complet ?</h4>
-              <p className="text-gray-300">Entre 2h et 4h selon l'état initial du véhicule et les services choisis.</p>
-            </div>
-            <div className="bg-zinc-800 p-6 rounded-lg">
-              <h4 className="text-lg font-bold text-blue-400 mb-3">Peut-on faire les services à domicile ?</h4>
-              <p className="text-gray-300">Oui, nous nous déplaçons à votre domicile pour la plupart de nos services. Contactez-nous pour les modalités.</p>
-            </div>
-            <div className="bg-zinc-800 p-6 rounded-lg">
-              <h4 className="text-lg font-bold text-blue-400 mb-3">Avez-vous des forfaits spéciaux ?</h4>
-              <p className="text-gray-300">Oui ! Contactez-nous pour des tarifs de groupe ou des contrats de nettoyage régulier.</p>
-            </div>
+      {/* FAQ */}
+      <section className="bg-gradient-to-b from-black via-gray-900 to-black py-20 px-6">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl md:text-5xl font-light text-center mb-4">
+            Questions fréquentes
+          </h2>
+          <p className="text-center text-gray-400 mb-14">
+            Tout savoir sur nos services premium
+          </p>
+
+          <div className="space-y-6">
+            <FAQItem
+              question="Où intervenez-vous ?"
+              answer="Nous intervenons à domicile ou en atelier, selon votre préférence."
+            />
+            <FAQItem
+              question="Combien de temps dure un nettoyage complet ?"
+              answer="Entre 2h et 4h selon l’état du véhicule."
+            />
+            <FAQItem
+              question="Utilisez-vous des produits écologiques ?"
+              answer="Oui, uniquement des produits professionnels respectueux des matériaux et de l’environnement."
+            />
+            <FAQItem
+              question="Proposez-vous des forfaits ?"
+              answer="Oui, des forfaits et abonnements sont disponibles sur demande."
+            />
+          </div>
+
+          <div className="text-center mt-16">
+            <Link href="/contact">
+              <button className="bg-white text-gray-900 font-semibold px-8 py-4 rounded-xl hover:bg-gray-200 transition">
+                Contactez-nous
+              </button>
+            </Link>
           </div>
         </div>
       </section>

@@ -38,13 +38,13 @@ export default function HomePage() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="#contact" className="group bg-gradient-to-r from-blue-500 via-white-600 to-blue-500 text-black px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 flex items-center space-x-2">
+            <Link href="/contact" className="group bg-gradient-to-r from-blue-500 via-white-600 to-blue-500 text-black px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105 flex items-center space-x-2">
               <span>Recherche personnalisée</span>
               <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </Link>
-            <Link href="#contact" className="group bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/10 hover:border-white/30 transition-all duration-300 flex items-center space-x-2">
+            <Link href="/contact" className="group bg-white/5 backdrop-blur-sm border-2 border-white/20 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/10 hover:border-white/30 transition-all duration-300 flex items-center space-x-2">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
               </svg>
@@ -248,19 +248,9 @@ export default function HomePage() {
               <h2 className="text-4xl sm:text-5xl font-black mb-6 bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent">
                 Démarrez votre projet
               </h2>
-              <p className="text-xl text-white/60 mb-12">
+              <p className="text-xl text-white/60 mb-3">
                 Contactez-nous pour une recherche personnalisée de votre prochain véhicule
               </p>
-
-              <form className="space-y-6">
-                <input type="text" placeholder="Nom complet" className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 transition-colors duration-300" />
-                <input type="email" placeholder="Email" className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 transition-colors duration-300" />
-                <input type="tel" placeholder="Téléphone" className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 transition-colors duration-300" />
-                <textarea placeholder="Décrivez-nous votre projet automobile..." rows={6} className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 transition-colors duration-300 resize-none"></textarea>
-                <button type="submit" className="w-full bg-gradient-to-r from-blue-500 to-white-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105">
-                  Envoyer ma demande
-                </button>
-              </form>
             </div>
 
             {/* Contact Info */}
@@ -277,7 +267,7 @@ export default function HomePage() {
                     </div>
                     <div>
                       <p className="text-sm text-white/50 mb-1">Téléphone</p>
-                      <p className="text-lg font-bold text-white">06 XX XX XX XX</p>
+                      <p className="text-lg font-bold text-white">+33 7 69 80 38 89</p>
                     </div>
                   </div>
 

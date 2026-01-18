@@ -43,7 +43,7 @@ export default function MentionsLegales() {
               <p><span className="text-white">SIRET (siège) :</span> 993 514 090 00013</p>
               <p><span className="text-white">Capital social :</span> 10 000 €</p>
               <p><span className="text-white">Email :</span> contact@safecars.fr</p>
-              <p><span className="text-white">Téléphone :</span> +33 1 23 45 67 89</p>
+              <p><span className="text-white">Téléphone :</span> +33 7 69 80 38 89</p>
               <p>
                 <span className="text-white">Activité principale :</span> Courtier Automobile en véhicules neufs et d&apos;occasion.
               </p>

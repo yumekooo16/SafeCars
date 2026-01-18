@@ -48,7 +48,7 @@ export default function Header() {
                 Accueil
               </Link>
               <Link href="/nos-ventes" className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300">
-                 Nos-Véhicules
+                 Nos Véhicules
               </Link>
               <Link href="#contact" className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300">
                 Contact
@@ -90,7 +90,7 @@ export default function Header() {
             onClick={() => setMenuOpen(false)} 
             className="text-3xl font-bold text-white hover:text-blue-500 transition-colors duration-300"
           >
-            Nos Ventes
+            Nos Vehicules
           </Link>
           <Link 
             href="/contact" 
@@ -109,7 +109,7 @@ export default function Header() {
           <Link
             href="/"
             onClick={() => setMenuOpen(false)}
-            className="mt-8 bg-gradient-to-r from-blue-500 to-white-600 text-black px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300"
+            className="mt-8 bg-gradient-to-r from-blue-500 to-white-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300"
           >
             Trouver ma voiture
           </Link>

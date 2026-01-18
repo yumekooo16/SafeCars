@@ -47,7 +47,7 @@ export default function PolitiqueConfidentialite() {
               </p>
               <ul className="space-y-2 ml-6 mt-2">
                 <li><span className="text-white mr-3">•</span>Email : <a href="mailto:contact@safecars.fr" className="text-white hover:text-gray-300 border-b border-white/30">contact@safecars.fr</a></li>
-                <li><span className="text-white mr-3">•</span>Téléphone : +33 1 23 45 67 89</li>
+                <li><span className="text-white mr-3">•</span>Téléphone : +33 7 69 80 38 89</li>
               </ul>
             </div>
           </article>
