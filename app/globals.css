@@ -1,61 +1,36 @@
 /* globals.css */
 
-/* 1️⃣ Import Google Font avant tout */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
-/* 2️⃣ Import Tailwind */
+/* 1️⃣ Tailwind */
 @import "tailwindcss";
 
-/* 3️⃣ Variables et thèmes */
+/* 2️⃣ Variables */
 :root {
-  --background: #000000;
-  --foreground: #ffffff; /* texte clair sur fond sombre */
-  --font-sans: 'Poppins', sans-serif; /* police principale */
+  --background: #000000; /* fond noir total */
+  --foreground: #ffffff; /* texte blanc */
+  --font-sans: 'Poppins', sans-serif;
   --font-mono: 'Fira Code', monospace;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #000000;
     --foreground: #ffffff;
   }
 }
 
-/* 4️⃣ Body et effets */
-body {
-  background: linear-gradient(to bottom right, #000000 0%, #27272a 50%, #000000 100%);
-  background-attachment: fixed;
+/* 3️⃣ HTML & Body couvrent tout */
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  position: relative; /* pour pseudo-éléments si besoin */
 }
 
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 30% 50%, rgba(23, 29, 46, 0.05), transparent 70%);
-  pointer-events: none;
-  z-index: -1;
-}
-
+/* 4️⃣ Supprimer tous les gradients / effets radiaux si tu veux 100% noir */
+body::before,
 body::after {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at 50% 50%, rgba(23, 29, 46, 0.05), transparent 50%);
-  pointer-events: none;
-  z-index: -1;
+  content: none; /* plus d’effets radiaux */
 }
