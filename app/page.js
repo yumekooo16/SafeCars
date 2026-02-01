@@ -141,12 +141,12 @@ export default function HomePage() {
             </div>
 
             {/* Stats */}
-            <div className="mb-15 grid grid-cols-2 gap-8 pt-16 border-t border-white/30">
+            <div className="mb-25 grid grid-cols-2 gap-8 pt-16 border-t border-white/30">
               <div className="text-center sm:text-left">
                 <div className="text-4xl md:text-5xl font-bold text-white mb-2">100+</div>
                 <div className="text-sm md:text-base text-gray-300 font-light">Véhicules vendus</div>
               </div>
-              <div className=" mb-15 text-center sm:text-left">
+              <div className=" mb-25 text-center sm:text-left">
                 <div className="text-4xl md:text-5xl font-bold text-white mb-2">98%</div>
                 <div className="text-sm md:text-base text-gray-300 font-light">Clients satisfaits</div>
               </div>
