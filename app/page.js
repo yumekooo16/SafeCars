@@ -155,7 +155,7 @@ export default function HomePage() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="mb-16 absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+        <div className="mt-30 absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
           <div className="flex flex-col items-center gap-2 text-white/70">
             <span className="text-xs tracking-widest uppercase">Défiler</span>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
