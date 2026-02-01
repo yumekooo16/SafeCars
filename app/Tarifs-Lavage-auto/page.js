@@ -56,43 +56,39 @@ function FAQItem({ question, answer }) {
 ========================= */
 export default function TarifsLavageAuto() {
 
-  const interieurServices = [
-    { name: 'Aspiration complète (sièges + tapis + coffre)', price: 35 },
-    { name: 'Nettoyage des sièges (professionnel)', price: 45 },
-    { name: 'Nettoyage des tapis et moquette', price: 40 },
-    { name: 'Nettoyage du tableau de bord et plastiques', price: 25 },
-    { name: 'Désodorisation intérieure', price: 20 },
-    { name: 'Nettoyage des vitres intérieures', price: 15 },
-    { name: 'Protection hydrofuge des sièges', price: 50 },
-    { name: 'Nettoyage complet du coffre', price: 25 },
-  ];
-
-  const premiumServices = [
-    { name: 'Traitement céramique (protection 12 mois)', price: 80 },
-    { name: 'Detailing complet (intérieur + extérieur)', price: 150 },
-    { name: 'Polissage de la peinture', price: 70 },
-  ];
-
-  const ServiceSection = ({ title, services }) => (
-    <div className="mb-14">
-      <h3 className="text-3xl font-bold mb-8 text-blue-400">
-        {title}
-      </h3>
-      <div className="space-y-4">
-        {services.map((service, idx) => (
-          <div
-            key={idx}
-            className="flex justify-between items-center border-b border-zinc-700 pb-4 hover:border-blue-400/50 transition"
-          >
-            <span className="text-lg text-gray-200">
-              {service.name}
-            </span>
-            <span className="text-2xl font-bold text-blue-400">
-              {service.price}€
-            </span>
-          </div>
-        ))}
+  const PrestationCard = ({ title, description, startingPrice, prices, options }) => (
+    <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-6 mb-6 hover:border-blue-400/50 transition">
+      <div className="mb-4">
+        <h3 className="text-2xl font-bold text-blue-400 mb-2">{title}</h3>
+        {description && (
+          <p className="text-gray-300 text-sm mb-3">{description}</p>
+        )}
+        {startingPrice && (
+          <p className="text-blue-400 font-semibold">{startingPrice}</p>
+        )}
       </div>
+      
+      {prices && prices.length > 0 && (
+        <div className="space-y-2 mt-4 pt-4 border-t border-gray-700">
+          {prices.map((price, idx) => (
+            <div key={idx} className="flex justify-between items-center">
+              <span className="text-gray-200">{price.type}</span>
+              <span className="text-xl font-bold text-white">{price.amount}€</span>
+            </div>
+          ))}
+        </div>
+      )}
+      
+      {options && options.length > 0 && (
+        <div className={prices && prices.length > 0 ? "mt-4 pt-4 border-t border-gray-700" : "mt-2"}>
+          {options.map((option, idx) => (
+            <div key={idx} className="flex justify-between items-center">
+              <span className="text-gray-200">{option.name}</span>
+              <span className="text-xl font-bold text-white">{option.price}€</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 
@@ -124,14 +120,56 @@ export default function TarifsLavageAuto() {
           </p>
         </div>
 
-        <ServiceSection
-          title="Nettoyage Intérieur"
-          services={interieurServices}
+        {/* Prestation Médium */}
+        <PrestationCard
+          title="Prestation médium"
+          description="aspiration des moquette + coffre, vitre + intérieur de porte et nettoyage plastique"
+          startingPrice="À partir de 60€"
+          prices={[
+            { type: 'Citadine', amount: 60 },
+            { type: 'Berlines', amount: 65 },
+            { type: 'SUV / 4x4', amount: 75 }
+          ]}
         />
 
-        <ServiceSection
-          title="Services Premium"
-          services={premiumServices}
+        {/* Option lavage sièges */}
+        <PrestationCard
+          title="Option lavage des sièges en tissus"
+          prices={null}
+          options={[
+            { name: 'Lavage des sièges en tissus', price: 25 }
+          ]}
+        />
+
+        {/* Prestation Premium */}
+        <PrestationCard
+          title="Prestations premium"
+          description="aspiration des moquette plus coffre, vitre + intérieur de porte, nettoyage des plastique et lavage de siège"
+          startingPrice="À partir de 80€"
+          prices={[
+            { type: 'Citadine', amount: 80 },
+            { type: 'Berlines', amount: 85 },
+            { type: 'SUV / 4x4', amount: 90 }
+          ]}
+        />
+
+        {/* Lavage extérieur */}
+        <PrestationCard
+          title="Lavage extérieur"
+          prices={null}
+          options={[
+            { name: 'Lavage extérieur', price: 40 }
+          ]}
+        />
+
+        {/* Prestation Gold */}
+        <PrestationCard
+          title="Prestations gold"
+          description="Prestation Premium + Lavage extérieur"
+          prices={null}
+          options={[
+            { name: 'Prestation Gold (Premium + Extérieur)', price: 120 }
+          ]}
         />
 
         <div className="text-center mt-12">

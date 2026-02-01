@@ -1,6 +1,8 @@
 'use client';
 
 import Link from "next/link";
+import Image from "next/image";
+
 import { useState, useEffect } from "react";
 
 export default function Header() {
@@ -33,13 +35,13 @@ export default function Header() {
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 via-white-600 to-blue-700 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-all duration-300">
-                <span className="text-black font-black text-xl tracking-tighter">SC</span>
-              </div>
-              <div>
-                <div className="text-2xl font-black tracking-tight text-white">SafeCars</div>
-                <p className="text-xs text-blue-500 font-medium tracking-wide">Courtier Automobile</p>
-              </div>
+              <Image 
+            src="/image/Logosafecarsv2.png" 
+            alt="SafeCars Logo" 
+            width={150} 
+            height={200}
+            priority
+          />
             </Link>
 
             {/* Navigation Desktop */}
@@ -50,12 +52,18 @@ export default function Header() {
               <Link href="/nos-ventes" className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300">
                  Nos Véhicules
               </Link>
-              <Link href="#contact" className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300">
+              <Link href="/contact" className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300">
                 Contact
               </Link>
               <Link 
-                href="#contact"
-                className="bg-gradient-to-r from-blue-500 to-white-600 text-black px-6 py-2.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105"
+                  href="/Tarifs-Lavage-auto"
+                  className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300"
+                >
+                  Tarifs Lavage Auto
+                </Link>
+                <Link 
+                href="/contact"
+                className="bg-gradient-to-r from-blue-500 to-white-600 text-white px-6 py-2.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105"
               >
                 Trouver ma voiture
               </Link>

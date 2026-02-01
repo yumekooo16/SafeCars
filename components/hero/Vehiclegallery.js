@@ -2,37 +2,80 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import VehicleModal from './VehicleModal.js';
+import { supabaseClient } from '@/lib/supabaseClient';
+import VehiculeModal from './VehiculeModal'; // attention au nom exact
 
-export default function VehicleGallery({ featuredOnly = true }) {
-  const [vehicles, setVehicles] = useState([]);
-  const [selectedVehicle, setSelectedVehicle] = useState(null);
+export default function VehicleGallery({ featuredOnly = true, limit = 3, columns = 3 }) {
+  const [vehicules, setVehicules] = useState([]);
+  const [selectedVehicule, setSelectedVehicule] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // Récupérer les véhicules depuis Supabase
+  // Fonction pour obtenir l'URL correcte de l'image
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
+    
+    // Si l'URL est déjà complète (http/https), la retourner directement
+    if (imagePath.startsWith('http')) {
+      return imagePath;
+    }
+    
+    // Si le chemin commence par /uploads/, c'est une image locale - la retourner telle quelle
+    if (imagePath.startsWith('/uploads/')) {
+      return imagePath;
+    }
+    
+    // Si le chemin commence par uploads/ (sans slash initial), ajouter le slash
+    if (imagePath.startsWith('uploads/')) {
+      return '/' + imagePath;
+    }
+    
+    // Sinon, essayer Supabase Storage (pour compatibilité avec d'anciennes images)
+    let cleanPath = imagePath
+      .replace(/^\/+uploads\/+/, '')
+      .replace(/^uploads\/+/, '')
+      .replace(/^\/+vehicules\/+/, '')
+      .replace(/^vehicules\/+/, '')
+      .replace(/^\/+/, '');
+    
+    const { data } = supabaseClient.storage
+      .from('vehicle-images')
+      .getPublicUrl(cleanPath);
+    
+    return data?.publicUrl || null;
+  };
+
   useEffect(() => {
-    fetchVehicles();
-  }, [featuredOnly]);
+    fetchVehicules();
+  }, [featuredOnly, limit]);
 
-  const fetchVehicles = async () => {
+  const fetchVehicules = async () => {
     setLoading(true);
+    setErrorMessage('');
     try {
       let query = supabase
-        .from('vehicles')
+        .from('vehicules')
         .select('*')
-        .eq('is_available', true); // uniquement les véhicules disponibles
+        .eq('statut', 'disponible');
 
-      if (featuredOnly) {
-        query = query.eq('is_featured', true); // uniquement les “featured”
-      }
-
+      if (featuredOnly) query = query.eq('is_featured', true);
       query = query.order('created_at', { ascending: false });
+      if (limit) query = query.limit(limit);
 
       const { data, error } = await query;
-      if (error) throw error;
-      setVehicles(data || []);
+
+      console.log('Supabase data:', data); // ← On voit ce qui est récupéré
+      if (error) throw new Error(error.message);
+
+      if (!data || data.length === 0) {
+        setErrorMessage('Aucun véhicule ne correspond aux critères.');
+      }
+
+      setVehicules(data || []);
     } catch (error) {
-      console.error('Erreur lors de la récupération des véhicules:', error);
+      console.error('Erreur Supabase:', error);
+      setErrorMessage(error.message || 'Erreur inconnue');
+      setVehicules([]);
     } finally {
       setLoading(false);
     }
@@ -40,57 +83,61 @@ export default function VehicleGallery({ featuredOnly = true }) {
 
   if (loading) {
     return (
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="aspect-square rounded-2xl bg-white/5 animate-pulse"></div>
+      <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${columns} gap-6`}>
+        {[...Array(limit)].map((_, i) => (
+          <div key={i} className="aspect-[4/3] rounded-xl bg-gray-800 animate-pulse"></div>
         ))}
       </div>
     );
   }
 
-  if (vehicles.length === 0) {
+  if (vehicules.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-white/50 text-lg">Aucun véhicule disponible pour le moment.</p>
+        <p className="text-gray-400 text-lg">{errorMessage || 'Aucun véhicule disponible pour le moment.'}</p>
       </div>
     );
   }
 
   return (
     <>
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {vehicles.map((vehicle) => (
+      <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-${columns} gap-6`}>
+        {vehicules.map((vehicule) => (
           <div
-            key={vehicle.id}
-            onClick={() => setSelectedVehicle(vehicle)}
-            className="group relative aspect-square rounded-2xl overflow-hidden cursor-pointer"
+            key={vehicule.id}
+            onClick={() => setSelectedVehicule(vehicule)}
+            className="group relative rounded-xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-shadow duration-300"
           >
-            {/* Image du véhicule */}
-            {vehicle.image_url ? (
-              <img
-                src={vehicle.image_url}
-                alt={`${vehicle.brand} ${vehicle.model}`}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-              />
-            ) : (
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-700 to-slate-900 group-hover:scale-110 transition-transform duration-700"></div>
-            )}
+            {(() => {
+              const imagePath = vehicule.image_url || (vehicule.images && vehicule.images[0]);
+              const imageUrl = imagePath ? getImageUrl(imagePath) : null;
+              
+              return imageUrl ? (
+                <img
+                  src={imageUrl}
+                  alt={`${vehicule.brand || vehicule.marque} ${vehicule.model || vehicule.modele}`}
+                  className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              ) : (
+                <div className="w-full h-64 bg-gray-700 flex items-center justify-center text-white">
+                  Pas d'image
+                </div>
+              );
+            })()}
 
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-amber-500/20 transition-all duration-500"></div>
 
-            {/* Informations */}
-            <div className="absolute bottom-0 left-0 right-0 p-6">
-              <p className="text-sm text-amber-500 font-bold mb-1">{vehicle.brand}</p>
-              <p className="text-2xl font-black text-white">{vehicle.model}</p>
-              {vehicle.price && (
-                <p className="text-lg font-bold text-white/80 mt-2">{vehicle.price.toLocaleString()} €</p>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+
+            <div className="absolute bottom-4 left-4 right-4 text-white">
+              <p className="text-sm text-amber-400 font-semibold">{vehicule.brand || vehicule.marque}</p>
+              <p className="text-xl font-bold">{vehicule.model || vehicule.modele}</p>
+              {(vehicule.price || vehicule.prix) && (
+                <p className="text-lg text-gray-200 mt-1">{(vehicule.price || vehicule.prix).toLocaleString()} €</p>
               )}
             </div>
 
-            {/* Badge "Nouveau" si récent */}
-            {isRecent(vehicle.created_at) && (
-              <div className="absolute top-4 right-4 bg-amber-500 text-black px-3 py-1 rounded-full text-xs font-bold">
+            {isRecent(vehicule.created_at) && (
+              <div className="absolute top-4 right-4 bg-amber-500 text-black px-2 py-1 rounded-full text-xs font-bold">
                 NOUVEAU
               </div>
             )}
@@ -98,21 +145,16 @@ export default function VehicleGallery({ featuredOnly = true }) {
         ))}
       </div>
 
-      {/* Modal de détails */}
-      {selectedVehicle && (
-        <VehicleModal
-          vehicle={selectedVehicle}
-          onClose={() => setSelectedVehicle(null)}
-        />
+      {selectedVehicule && (
+        <VehiculeModal vehicle={selectedVehicule} onClose={() => setSelectedVehicule(null)} getImageUrl={getImageUrl} />
       )}
     </>
   );
 }
 
-// Vérifier si le véhicule est récent (moins de 7 jours)
 function isRecent(createdAt) {
-  const vehicleDate = new Date(createdAt);
+  const vehiculeDate = new Date(createdAt);
   const now = new Date();
-  const diffDays = Math.floor((now - vehicleDate) / (1000 * 60 * 60 * 24));
+  const diffDays = Math.floor((now - vehiculeDate) / (1000 * 60 * 60 * 24));
   return diffDays < 7;
 }

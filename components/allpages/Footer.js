@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import Image from "next/image";
+
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -12,12 +14,15 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-12 mb-8">
           {/* Colonne 1 : Logo & Description */}
           <div>
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 via-white-600 to-blue-700 rounded-lg flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:shadow-blue-500/40 transition-all duration-300">
-                <span className="text-black font-black text-lg">SC</span>
-              </div>
-              <span className="text-xl font-black text-white">SafeCars</span>
-            </div>
+            <Link href="/" className="flex items-center space-x-3 mb-4 group">
+              <Image 
+                src="/image/Logosafecarsv2.png" 
+                alt="SafeCars Logo" 
+                width={150} 
+                height={200}
+                priority 
+              />
+            </Link>
             <p className="text-white/50 text-sm leading-relaxed">
               Votre courtier automobile de confiance à Sanguinet pour un achat de véhicule sécurisé et sans stress.
             </p>
@@ -29,7 +34,7 @@ export default function Footer() {
             <ul className="space-y-2 text-sm">
               <li><Link href="/" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Accueil</Link></li>
               <li><Link href="#services" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Services</Link></li>
-              <li><Link href="/nos-ventes" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Nos Ventes</Link></li>
+              <li><Link href="/nos-ventes" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Nos Vehicules</Link></li>
               <li><Link href="#contact" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Contact</Link></li>
             </ul>
           </div>

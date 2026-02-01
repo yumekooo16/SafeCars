@@ -34,7 +34,7 @@ export default function ContactPage() {
 
     try {
       // Validation basique
-      if (!formData.name || !formData.email || !formData.message) {
+      if (!formData.name || !formData.email || !formData.subject || !formData.message) {
         throw new Error('Veuillez remplir tous les champs obligatoires');
       }
 
@@ -52,7 +52,7 @@ export default function ContactPage() {
             name: formData.name,
             email: formData.email,
             phone: formData.phone || null,
-            subject: formData.subject || null,
+            subject: formData.subject,
             message: formData.message,
             status: 'new',
             priority: 'normal',
@@ -196,17 +196,20 @@ export default function ContactPage() {
                   {/* Sujet */}
                   <div>
                     <label htmlFor="subject" className="block text-sm font-medium text-white mb-2">
-                      Sujet (optionnel)
+                      Sujet <span className="text-blue-500">*</span>
                     </label>
-                    <input
-                      type="text"
+                    <select
                       id="subject"
                       name="subject"
                       value={formData.subject}
                       onChange={handleChange}
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-4 text-white placeholder-white/30 focus:outline-none focus:border-blue-500 transition-colors duration-300"
-                      placeholder="Recherche d'un véhicule"
-                    />
+                      required
+                      className="w-full bg-black border border-white/10 rounded-xl px-6 py-4 text-white focus:outline-none focus:border-blue-500 transition-colors duration-300"
+                    >
+                      <option value="" className="bg-black text-white/50">Sélectionnez un sujet</option>
+                      <option value="Achat de véhicule" className="bg-black text-white">Achat de véhicule</option>
+                      <option value="Lavage auto" className="bg-black text-white">Lavage auto</option>
+                    </select>
                   </div>
 
                   {/* Message */}
