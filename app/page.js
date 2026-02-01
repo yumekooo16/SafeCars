@@ -141,7 +141,7 @@ export default function HomePage() {
             </div>
 
             {/* Stats */}
-            <div className="mb-10 grid grid-cols-2 gap-8 pt-16 border-t border-white/30">
+            <div className="grid grid-cols-2 gap-8 pt-16 border-t border-white/30">
               <div className="text-center sm:text-left">
                 <div className="text-4xl md:text-5xl font-bold text-white mb-2">100+</div>
                 <div className="text-sm md:text-base text-gray-300 font-light">Véhicules vendus</div>
@@ -155,7 +155,7 @@ export default function HomePage() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="mb-10 absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+        <div className="mt-20 absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
           <div className="flex flex-col items-center gap-2 text-white/70">
             <span className="text-xs tracking-widest uppercase">Défiler</span>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
