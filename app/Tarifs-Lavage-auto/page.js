@@ -96,8 +96,8 @@ export default function TarifsLavageAuto() {
     <div className="bg-black text-white min-h-screen">
       <Header />
 
-      {/* HERO */}
-      <section className="mt-20 py-16 text-center relative">
+      {/* HERO - Ajouté pt-36 pour compenser le header fixe */}
+      <section className="pt-36 pb-16 text-center relative">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.12),transparent_55%)]" />
         <div className="relative z-10 px-4">
           <h1 className="text-5xl md:text-6xl font-bold mb-4">
@@ -198,11 +198,11 @@ export default function TarifsLavageAuto() {
             />
             <FAQItem
               question="Combien de temps dure un nettoyage complet ?"
-              answer="Entre 2h et 4h selon l’état du véhicule."
+              answer="Entre 2h et 4h selon l'état du véhicule."
             />
             <FAQItem
               question="Utilisez-vous des produits écologiques ?"
-              answer="Oui, uniquement des produits professionnels respectueux des matériaux et de l’environnement."
+              answer="Oui, uniquement des produits professionnels respectueux des matériaux et de l'environnement."
             />
             <FAQItem
               question="Proposez-vous des forfaits ?"

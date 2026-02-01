@@ -105,7 +105,8 @@ export default function NosVentes() {
       {/* Header */}
       <Header />
 
-      <main className="px-4 sm:px-6 lg:px-8 py-24 max-w-7xl mx-auto">
+      {/* Main - Ajouté pt-24 pour compenser le header fixe */}
+      <main className="px-4 sm:px-6 lg:px-8 pt-24 pb-12 max-w-7xl mx-auto">
         <h1 className="text-5xl font-black mb-16 text-center bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent">
           Nos Véhicules Disponibles
         </h1>
