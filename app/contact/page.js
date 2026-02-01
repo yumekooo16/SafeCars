@@ -86,10 +86,8 @@ export default function ContactPage() {
     <div className="bg-black text-white min-h-screen">
       <Header />
 
-      {/* Hero Section */}
+      {/* Hero Section - Ajouté pt-32 pour compenser le header fixe */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        
-
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl sm:text-6xl font-black mb-6 bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent">
             Contactez-nous

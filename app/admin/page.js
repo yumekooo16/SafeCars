@@ -766,7 +766,7 @@ export default function Admin() {
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-6 bg-gray-800 p-4 rounded">
             <div className="text-white">
-              <h1 className="text-2xl font-semibold">Admin SAFE CARS</h1>
+              <h1 className="text-2xl font-semibold">Admin SAFECARS</h1>
             </div>
             <button
               onClick={handleLogout}

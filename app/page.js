@@ -81,10 +81,10 @@ export default function HomePage() {
 
   return (
     <>
-
       <Header />
-      {/* Hero Section avec l'image SAFECARS */}
-      <section className="relative w-full h-screen overflow-hidden">
+      
+      {/* Hero Section avec l'image SAFECARS - RETIRÉ mt-20 et ajouté pt-20 */}
+      <section className="relative w-full h-screen overflow-hidden bg-black">
         <div className="absolute inset-0">
           <img
             src="/image/Vente_de_voitures_en_journée.png"
@@ -96,8 +96,8 @@ export default function HomePage() {
         {/* Overlay dégradé */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
 
-        {/* Contenu Hero */}
-        <div className="relative z-10 h-full flex items-center px-6 md:px-12 lg:px-20">
+        {/* Contenu Hero - Ajouté pt-20 pour compenser le header fixe */}
+        <div className="relative z-10 h-full flex items-center px-6 md:px-12 lg:px-20 pt-20">
           <div className="max-w-4xl space-y-8">
             
 
@@ -345,7 +345,7 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-8">
+          <div className=" text-white grid md:grid-cols-4 gap-8 ">
             
             {[
               { num: "01", title: "Parcourez", desc: "Explorez notre stock en ligne ou en showroom", icon: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" },

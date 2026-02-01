@@ -1,29 +1,39 @@
+/* globals.css */
+
+/* 1️⃣ Import Google Font avant tout */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* 2️⃣ Import Tailwind */
 @import "tailwindcss";
 
+/* 3️⃣ Variables et thèmes */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #000000;
+  --foreground: #ffffff; /* texte clair sur fond sombre */
+  --font-sans: 'Poppins', sans-serif; /* police principale */
+  --font-mono: 'Fira Code', monospace;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #ffffff;
   }
 }
 
+/* 4️⃣ Body et effets */
 body {
   background: linear-gradient(to bottom right, #000000 0%, #27272a 50%, #000000 100%);
   background-attachment: fixed;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
 }
 
 body::before {
