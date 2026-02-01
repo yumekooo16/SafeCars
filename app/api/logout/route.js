@@ -1,17 +1,24 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-// Créer le client Supabase
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+// Fonction pour créer le client Supabase
+function getSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Variables d\'environnement Supabase manquantes');
+  }
+  
+  return createClient(supabaseUrl, supabaseKey);
+}
 
 export async function POST(request) {
   try {
     const sessionToken = request.cookies.get('admin_session')?.value;
 
     if (sessionToken) {
+      const supabase = getSupabaseClient();
       // Récupérer l'admin avant d'invalider
       const { data: admin } = await supabase
         .from('admin_users')

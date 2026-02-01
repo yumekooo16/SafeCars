@@ -3,11 +3,17 @@ import { createClient } from '@supabase/supabase-js';
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 
-// Créer le client Supabase avec la Service Role Key pour contourner les RLS
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+// Fonction pour créer le client Supabase
+function getSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Variables d\'environnement Supabase manquantes');
+  }
+  
+  return createClient(supabaseUrl, supabaseKey);
+}
 
 // GET - Vérifier si l'utilisateur est connecté
 export async function GET(request) {
@@ -19,6 +25,7 @@ export async function GET(request) {
     }
 
     // Vérifier le token dans la base de données
+    const supabase = getSupabaseClient();
     const { data: admin, error } = await supabase
       .from('admin_users')
       .select('id, email, name, role, is_active')
@@ -64,6 +71,7 @@ export async function POST(request) {
     }
 
     // Récupérer l'admin depuis Supabase
+    const supabase = getSupabaseClient();
     const { data: admin, error } = await supabase
       .from('admin_users')
       .select('*')

@@ -1,11 +1,17 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 
-// Créer le client Supabase
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-);
+// Fonction pour créer le client Supabase
+function getSupabaseClient() {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  
+  if (!supabaseUrl || !supabaseKey) {
+    throw new Error('Variables d\'environnement Supabase manquantes');
+  }
+  
+  return createClient(supabaseUrl, supabaseKey);
+}
 
 // Fonction pour vérifier l'authentification admin
 async function checkAuth(request) {
@@ -15,6 +21,7 @@ async function checkAuth(request) {
     return null;
   }
 
+  const supabase = getSupabaseClient();
   const { data: admin, error } = await supabase
     .from('admin_users')
     .select('id, email, name, role, is_active')
@@ -49,6 +56,7 @@ export async function GET(request) {
     const limit = searchParams.get('limit') ? parseInt(searchParams.get('limit')) : 100;
 
     // Construire la requête
+    const supabase = getSupabaseClient();
     let query = supabase
       .from('contact_messages')
       .select('*')
@@ -128,6 +136,7 @@ export async function PUT(request) {
     if (status === 'replied') updateData.replied_at = new Date().toISOString();
 
     // Mettre à jour le message
+    const supabase = getSupabaseClient();
     const { data, error } = await supabase
       .from('contact_messages')
       .update(updateData)
