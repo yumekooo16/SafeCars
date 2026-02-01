@@ -83,12 +83,12 @@ export default function HomePage() {
     <>
 
       <Header />
-      {/* Hero Section avec l'image SAFE CARS */}
+      {/* Hero Section avec l'image SAFECARS */}
       <section className="relative w-full h-screen overflow-hidden">
         <div className="absolute inset-0">
           <img
             src="/image/Vente_de_voitures_en_journée.png"
-            alt="SAFE CARS - Vente de voitures de qualité"
+            alt="SAFECARS - Vente de voitures de qualité"
             className="w-full h-full object-cover object-center"
           />
         </div>
@@ -103,7 +103,7 @@ export default function HomePage() {
 
             {/* Titre principal */}
             <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-tight">
-              SAFE CARS
+              SAFECARS
             </h1>
 
             {/* Sous-titre */}
@@ -284,7 +284,7 @@ export default function HomePage() {
               Nos engagements
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Pourquoi choisir SAFE CARS
+              Pourquoi choisir SAFECARS
             </h2>
           </div>
 
