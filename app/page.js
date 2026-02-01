@@ -141,7 +141,7 @@ export default function HomePage() {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-2 gap-8 pt-16 border-t border-white/30">
+            <div className="mb-20 grid grid-cols-2 gap-8 pt-16 border-t border-white/30">
               <div className="text-center sm:text-left">
                 <div className="text-4xl md:text-5xl font-bold text-white mb-2">100+</div>
                 <div className="text-sm md:text-base text-gray-300 font-light">Véhicules vendus</div>
