@@ -84,7 +84,7 @@ export default function HomePage() {
       <Header />
       
       {/* Hero Section avec l'image SAFECARS - RETIRÉ mt-20 et ajouté pt-20 */}
-      <section className="relative w-full h-screen overflow-hidden bg-black">
+      <section className="mt-20 w-full h-screen overflow-hidden bg-black">
         <div className="absolute inset-0">
           <img
             src="/image/Vente_de_voitures_en_journée.png"
@@ -155,7 +155,7 @@ export default function HomePage() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="mt-30 absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
+        <div className="mt-20 absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
           <div className="flex flex-col items-center gap-2 text-white/70">
             <span className="text-xs tracking-widest uppercase">Défiler</span>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -345,13 +345,12 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className=" text-white grid md:grid-cols-4 gap-8 ">
+          <div className=" text-white grid md:grid-cols-3 gap-8 ">
             
             {[
               { num: "01", title: "Parcourez", desc: "Explorez notre stock en ligne ou en showroom", icon: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" },
               { num: "02", title: "Essayez", desc: "Réservez un essai routier gratuit", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" },
-              { num: "03", title: "Financez", desc: "Solutions de paiement adaptées", icon: "M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" },
-              { num: "04", title: "Roulez", desc: "Repartez avec votre véhicule", icon: "M5 13l4 4L19 7" }
+              { num: "03", title: "Roulez", desc: "Repartez avec votre véhicule", icon: "M5 13l4 4L19 7" }
             ].map((step, idx) => (
               <div key={idx} className="relative group">
                 <div className="bg-gray-600 p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-blue-600 rounded-lg h-full">
