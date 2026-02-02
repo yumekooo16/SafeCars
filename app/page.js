@@ -102,7 +102,7 @@ export default function HomePage() {
             
 
             {/* Titre principal */}
-            <h1 className="mt-10 text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-tight">
+            <h1 className="mt-10 text-4xl md:text-7xl lg:text-3xl font-bold text-white leading-tight">
               SAFECARS
             </h1>
 
