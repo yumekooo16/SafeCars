@@ -5,6 +5,25 @@ import Image from "next/image";
 
 import { useState, useEffect } from "react";
 
+const MOBILE_LINKS = [
+  { href: "/", label: "Accueil", variant: "blue" },
+  { href: "/nos-ventes", label: "Nos Véhicules", variant: "blue" },
+  { href: "/services", label: "Services", variant: "blue" },
+  { href: "/blog", label: "Guides", variant: "blue" },
+  { href: "/contact", label: "Contact", variant: "blue" },
+  {
+    href: "/Tarifs-Lavage-auto",
+    label: "Tarifs Lavage Auto",
+    variant: "amber",
+  },
+];
+
+const mobileLinkClass = {
+  blue: "text-3xl font-bold text-white hover:text-blue-500 transition-colors duration-300",
+  amber:
+    "text-3xl font-bold text-white hover:text-amber-500 transition-colors duration-300",
+};
+
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -36,12 +55,12 @@ export default function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3 group">
               <Image 
-            src="/image/Logosafecarsv2.png" 
-            alt="SafeCars Logo" 
-            width={150} 
-            height={200}
-            priority
-          />
+                src="/image/Logosafecarsv2.png" 
+                alt="SafeCars — courtier automobile Sanguinet" 
+                width={150} 
+                height={200}
+                priority
+              />
             </Link>
 
             {/* Navigation Desktop */}
@@ -50,29 +69,36 @@ export default function Header() {
                 Accueil
               </Link>
               <Link href="/nos-ventes" className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300">
-                 Nos Véhicules
+                Nos Véhicules
+              </Link>
+              <Link href="/services" className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300">
+                Services
+              </Link>
+              <Link href="/blog" className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300">
+                Guides
               </Link>
               <Link href="/contact" className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300">
                 Contact
               </Link>
               <Link 
-                  href="/Tarifs-Lavage-auto"
-                  className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300"
-                >
-                  Tarifs Lavage Auto
-                </Link>
-                <Link 
+                href="/Tarifs-Lavage-auto"
+                className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300"
+              >
+                Tarifs Lavage Auto
+              </Link>
+              {/* FIX 1 : "to-white-600" remplacé par "to-blue-600" */}
+              <Link 
                 href="/contact"
-                className="bg-gradient-to-r from-blue-500 to-white-600 text-white px-6 py-2.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105"
+                className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2.5 rounded-lg font-bold text-sm hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 hover:scale-105"
               >
                 Trouver ma voiture
               </Link>
             </nav>
 
-            {/* Bouton Menu Mobile */}
+            {/* FIX 3 : z-[60] pour que le bouton reste au-dessus du menu overlay (z-50) */}
             <button 
               onClick={() => setMenuOpen(!menuOpen)} 
-              className="md:hidden z-50 w-10 h-10 flex flex-col justify-center items-center" 
+              className="md:hidden z-[60] w-10 h-10 flex flex-col justify-center items-center" 
               aria-label="Menu"
             >
               <span className={`block w-7 h-0.5 bg-white rounded transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
@@ -83,41 +109,25 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Menu Mobile */}
-      <div className={`fixed inset-0 bg-black/95 backdrop-blur-md z-40 md:hidden transition-opacity duration-300 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+      {/* FIX 3 : menu mobile z-50 (sous le bouton z-[60]) */}
+      <div className={`fixed inset-0 bg-black/95 backdrop-blur-md z-50 md:hidden transition-opacity duration-300 ${menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
         <div className="flex flex-col items-center justify-center h-full space-y-8">
-          <Link 
-            href="/" 
-            onClick={() => setMenuOpen(false)} 
-            className="text-3xl font-bold text-white hover:text-blue-500 transition-colors duration-300"
-          >
-            Accueil
-          </Link>
-          <Link 
-            href="/nos-ventes" 
-            onClick={() => setMenuOpen(false)} 
-            className="text-3xl font-bold text-white hover:text-blue-500 transition-colors duration-300"
-          >
-            Nos Vehicules
-          </Link>
-          <Link 
-            href="/contact" 
-            onClick={() => setMenuOpen(false)} 
-            className="text-3xl font-bold text-white hover:text-blue-500 transition-colors duration-300"
-          >
-            Contact
-          </Link>
-          <Link 
-            href="/Tarifs-Lavage-auto" 
-            onClick={() => setMenuOpen(false)}
-            className="text-3xl font-bold text-white hover:text-amber-500 transition-colors duration-300"
-          >
-            Tarifs Lavage Auto
-          </Link>
+          {/* FIX 2 : clé basée sur l'index pour éviter les doublons */}
+          {MOBILE_LINKS.map(({ href, label, variant }, index) => (
+            <Link
+              key={index}
+              href={href}
+              onClick={() => setMenuOpen(false)}
+              className={mobileLinkClass[variant]}
+            >
+              {label}
+            </Link>
+          ))}
+          {/* FIX 1 : "to-white-600" remplacé par "to-blue-600" */}
           <Link
-            href="/"
+            href="/contact"
             onClick={() => setMenuOpen(false)}
-            className="mt-8 bg-gradient-to-r from-blue-500 to-white-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300"
+            className="mt-8 bg-gradient-to-r from-blue-500 to-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:shadow-2xl hover:shadow-blue-500/50 transition-all duration-300"
           >
             Trouver ma voiture
           </Link>

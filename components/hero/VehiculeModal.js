@@ -3,8 +3,9 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { supabaseClient } from '@/lib/supabaseClient';
+import { getVehicleImageUrl } from '@/lib/vehicleImageUrl';
 
 export default function VehicleModal({ vehicle, onClose, getImageUrl }) {
   const router = useRouter();
@@ -12,39 +13,7 @@ export default function VehicleModal({ vehicle, onClose, getImageUrl }) {
   const [imageErrors, setImageErrors] = useState({});
   const [zoomedImage, setZoomedImage] = useState(null);
 
-  // Si getImageUrl n'est pas fourni en prop, créer une version locale
-  const getImageUrlLocal = getImageUrl || ((imagePath) => {
-    if (!imagePath) return null;
-    
-    // Si l'URL est déjà complète (http/https), la retourner directement
-    if (imagePath.startsWith('http')) {
-      return imagePath;
-    }
-    
-    // Si le chemin commence par /uploads/, c'est une image locale - la retourner telle quelle
-    if (imagePath.startsWith('/uploads/')) {
-      return imagePath;
-    }
-    
-    // Si le chemin commence par uploads/ (sans slash initial), ajouter le slash
-    if (imagePath.startsWith('uploads/')) {
-      return '/' + imagePath;
-    }
-    
-    // Sinon, essayer Supabase Storage (pour compatibilité avec d'anciennes images)
-    let cleanPath = imagePath
-      .replace(/^\/+uploads\/+/, '')
-      .replace(/^uploads\/+/, '')
-      .replace(/^\/+vehicules\/+/, '')
-      .replace(/^vehicules\/+/, '')
-      .replace(/^\/+/, '');
-    
-    const { data } = supabaseClient.storage
-      .from('vehicle-images')
-      .getPublicUrl(cleanPath);
-    
-    return data?.publicUrl || null;
-  });
+  const getImageUrlLocal = getImageUrl || getVehicleImageUrl;
 
   const handleImageError = (index) => {
     setImageErrors(prev => ({ ...prev, [index]: true }));
@@ -78,10 +47,21 @@ export default function VehicleModal({ vehicle, onClose, getImageUrl }) {
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="sticky top-0 bg-gray-900 border-b border-gray-800 p-6 flex justify-between items-center z-10">
-          <h2 className="text-3xl font-bold text-white">
-            {vehicle.marque} {vehicle.modele}
-          </h2>
+        <div className="sticky top-0 bg-gray-900 border-b border-gray-800 p-6 flex flex-wrap items-center justify-between gap-4 z-10">
+          <div>
+            <h2 className="text-3xl font-bold text-white">
+              {vehicle.marque} {vehicle.modele}
+            </h2>
+            {vehicle.id && (
+              <Link
+                href={`/vehicules/${vehicle.id}`}
+                onClick={onClose}
+                className="mt-2 inline-block text-sm font-medium text-blue-400 hover:text-blue-300"
+              >
+                Ouvrir la fiche complète (partageable)
+              </Link>
+            )}
+          </div>
           <button
             onClick={onClose}
             className="text-gray-400 hover:text-white text-3xl leading-none"

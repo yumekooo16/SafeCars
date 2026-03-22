@@ -2,48 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
-import { supabaseClient } from '@/lib/supabaseClient';
-import VehiculeModal from './VehiculeModal'; // attention au nom exact
+import { getVehicleImageUrl } from '@/lib/vehicleImageUrl';
+import VehiculeModal from './VehiculeModal';
 
 export default function VehicleGallery({ featuredOnly = true, limit = 3, columns = 3 }) {
   const [vehicules, setVehicules] = useState([]);
   const [selectedVehicule, setSelectedVehicule] = useState(null);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
-
-  // Fonction pour obtenir l'URL correcte de l'image
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return null;
-    
-    // Si l'URL est déjà complète (http/https), la retourner directement
-    if (imagePath.startsWith('http')) {
-      return imagePath;
-    }
-    
-    // Si le chemin commence par /uploads/, c'est une image locale - la retourner telle quelle
-    if (imagePath.startsWith('/uploads/')) {
-      return imagePath;
-    }
-    
-    // Si le chemin commence par uploads/ (sans slash initial), ajouter le slash
-    if (imagePath.startsWith('uploads/')) {
-      return '/' + imagePath;
-    }
-    
-    // Sinon, essayer Supabase Storage (pour compatibilité avec d'anciennes images)
-    let cleanPath = imagePath
-      .replace(/^\/+uploads\/+/, '')
-      .replace(/^uploads\/+/, '')
-      .replace(/^\/+vehicules\/+/, '')
-      .replace(/^vehicules\/+/, '')
-      .replace(/^\/+/, '');
-    
-    const { data } = supabaseClient.storage
-      .from('vehicle-images')
-      .getPublicUrl(cleanPath);
-    
-    return data?.publicUrl || null;
-  };
 
   useEffect(() => {
     fetchVehicules();
@@ -64,7 +30,6 @@ export default function VehicleGallery({ featuredOnly = true, limit = 3, columns
 
       const { data, error } = await query;
 
-      console.log('Supabase data:', data); // ← On voit ce qui est récupéré
       if (error) throw new Error(error.message);
 
       if (!data || data.length === 0) {
@@ -110,7 +75,7 @@ export default function VehicleGallery({ featuredOnly = true, limit = 3, columns
           >
             {(() => {
               const imagePath = vehicule.image_url || (vehicule.images && vehicule.images[0]);
-              const imageUrl = imagePath ? getImageUrl(imagePath) : null;
+              const imageUrl = imagePath ? getVehicleImageUrl(imagePath) : null;
               
               return imageUrl ? (
                 <img
@@ -146,7 +111,7 @@ export default function VehicleGallery({ featuredOnly = true, limit = 3, columns
       </div>
 
       {selectedVehicule && (
-        <VehiculeModal vehicle={selectedVehicule} onClose={() => setSelectedVehicule(null)} getImageUrl={getImageUrl} />
+        <VehiculeModal vehicle={selectedVehicule} onClose={() => setSelectedVehicule(null)} />
       )}
     </>
   );

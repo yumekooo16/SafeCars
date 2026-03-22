@@ -11,13 +11,13 @@ export default function Footer() {
     <footer className="bg-zinc-950 border-t border-white/10">
       {/* Section principale du footer */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-3 gap-12 mb-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-8">
           {/* Colonne 1 : Logo & Description */}
           <div>
             <Link href="/" className="flex items-center space-x-3 mb-4 group">
               <Image 
                 src="/image/Logosafecarsv2.png" 
-                alt="SafeCars Logo" 
+                alt="SafeCars — courtier automobile Sanguinet" 
                 width={150} 
                 height={200}
                 priority 
@@ -33,15 +33,27 @@ export default function Footer() {
             <h4 className="text-white font-bold mb-4">Navigation</h4>
             <ul className="space-y-2 text-sm">
               <li><Link href="/" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Accueil</Link></li>
-              <li><Link href="#services" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Services</Link></li>
-              <li><Link href="/nos-ventes" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Nos Vehicules</Link></li>
-              <li><Link href="#contact" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Contact</Link></li>
+              <li><Link href="/#services" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Services</Link></li>
+              <li><Link href="/nos-ventes" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Nos véhicules</Link></li>
+              <li><Link href="/contact" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Contact</Link></li>
+              <li><Link href="/Tarifs-Lavage-auto" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Tarifs lavage auto</Link></li>
             </ul>
           </div>
 
-          {/* Colonne 3 : Informations légales */}
           <div>
-            <h4 className="text-white font-bold mb-4">Informations</h4>
+            <h4 className="text-white font-bold mb-4">Services &amp; infos</h4>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/services" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Tous les services</Link></li>
+              <li><Link href="/blog" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Guides &amp; blog</Link></li>
+              <li><Link href="/notre-methode" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Notre méthode</Link></li>
+              <li><Link href="/reprise-auto" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Reprise auto</Link></li>
+              <li><Link href="/faq-achat-auto" className="text-white/50 hover:text-blue-500 transition-colors duration-300">FAQ</Link></li>
+            </ul>
+          </div>
+
+          {/* Colonne légal & coordonnées */}
+          <div>
+            <h4 className="text-white font-bold mb-4">Coordonnées</h4>
             <ul className="space-y-2 text-sm text-white/50 mb-6">
               <li>SIRET : 993 514 090 00014</li>
               <li>Sanguinet, Landes (40)</li>

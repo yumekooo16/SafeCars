@@ -2,15 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import Footer from "@/components/allpages/Footer";
 import Header from "@/components/allpages/Header";
 import { supabaseClient } from '@/lib/supabaseClient';
-import VehicleModal from '@/components/hero/VehiculeModal.js';
+import { getVehicleImageUrl } from '@/lib/vehicleImageUrl';
 
 
 export default function HomePage() {
   const [vehicules, setVehicules] = useState([]);
-  const [selectedVehicle, setSelectedVehicle] = useState(null);
   const [loading, setLoading] = useState(true);
   const [imageErrors, setImageErrors] = useState({});
 
@@ -44,41 +44,6 @@ export default function HomePage() {
     setImageErrors(prev => ({ ...prev, [vehicleId]: true }));
   };
 
-  // Fonction pour obtenir l'URL correcte de l'image
-  const getImageUrl = (imagePath) => {
-    if (!imagePath) return null;
-    
-    // Si l'URL est déjà complète (http/https), la retourner directement
-    if (imagePath.startsWith('http')) {
-      return imagePath;
-    }
-    
-    // Si le chemin commence par /uploads/, c'est une image locale - la retourner telle quelle
-    if (imagePath.startsWith('/uploads/')) {
-      return imagePath;
-    }
-    
-    // Si le chemin commence par uploads/ (sans slash initial), ajouter le slash
-    if (imagePath.startsWith('uploads/')) {
-      return '/' + imagePath;
-    }
-    
-    // Sinon, essayer Supabase Storage (pour compatibilité avec d'anciennes images)
-    let cleanPath = imagePath
-      .replace(/^\/+uploads\/+/, '')
-      .replace(/^uploads\/+/, '')
-      .replace(/^\/+vehicules\/+/, '')
-      .replace(/^vehicules\/+/, '')
-      .replace(/^\/+/, '');
-    
-    // Obtenir l'URL publique depuis Supabase Storage (bucket: vehicle-images)
-    const { data } = supabaseClient.storage
-      .from('vehicle-images')
-      .getPublicUrl(cleanPath);
-    
-    return data?.publicUrl || null;
-  };
-
   return (
     <>
       <Header />
@@ -86,10 +51,13 @@ export default function HomePage() {
       {/* Hero Section avec l'image SAFECARS - RETIRÉ mt-20 et ajouté pt-20 */}
       <section className="mt-20 w-full h-screen overflow-hidden bg-black">
         <div className="absolute inset-0">
-          <img
+          <Image
             src="/image/Vente_de_voitures_en_journée.png"
-            alt="SAFECARS - Vente de voitures de qualité"
-            className="w-full h-full object-cover object-center"
+            alt="SafeCars — vente de véhicules d’occasion contrôlés, Sanguinet"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
           />
         </div>
 
@@ -101,20 +69,27 @@ export default function HomePage() {
           <div className="max-w-4xl space-y-8">
             
 
-            {/* Titre principal */}
-            <h1 className="mt-18 text-4xl md:text-7xl lg:text-3xl font-bold text-white leading-tight">
-              SAFECARS
+            {/* Titre principal — marque + promesse SEO (un seul H1) */}
+            <h1 className="mt-18 text-4xl md:text-7xl lg:text-5xl font-bold text-white leading-tight">
+              <span className="block tracking-tight">SAFECARS</span>
+              <span className="mt-4 block text-2xl md:text-4xl font-semibold text-gray-200 leading-snug">
+                Véhicules d&apos;occasion contrôlés — courtier auto à Sanguinet (Landes, 40)
+              </span>
             </h1>
 
             {/* Sous-titre */}
-            <p className="text-2xl md:text-3xl text-gray-200 font-light leading-relaxed">
-              Des véhicules de qualité à des prix justes
+            <p className="text-xl md:text-2xl text-gray-200 font-light leading-relaxed max-w-2xl">
+              Des véhicules de qualité à des prix justes, avec transparence et accompagnement personnalisé.
             </p>
 
             {/* Description */}
             <p className="text-lg md:text-xl text-gray-300 font-light max-w-2xl leading-relaxed">
-              Découvrez notre sélection de véhicules soigneusement contrôlés et certifiés. 
-              Transparence, fiabilité et expertise au service de votre mobilité.
+              Nous sélectionnons et contrôlons chaque véhicule avant mise en vente. Vous pouvez aussi confier
+              l&apos;entretien esthétique de votre auto à notre{' '}
+              <Link href="/Tarifs-Lavage-auto" className="text-blue-400 underline-offset-4 hover:underline">
+                service de lavage professionnel
+              </Link>
+              .
             </p>
 
             {/* Boutons CTA */}
@@ -186,16 +161,16 @@ export default function HomePage() {
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               {vehicules.map((vehicle) => {
                 const imageUrl = vehicle.images && vehicle.images.length > 0 
-                  ? getImageUrl(vehicle.images[0]) 
+                  ? getVehicleImageUrl(vehicle.images[0]) 
                   : null;
                 const isVendu = vehicle.statut === 'vendu';
                 const isReserve = vehicle.statut === 'reserve';
                 
                 return (
-                  <div
+                  <Link
                     key={vehicle.id}
-                    onClick={() => setSelectedVehicle(vehicle)}
-                    className={`group relative aspect-square rounded-2xl overflow-hidden cursor-pointer ${
+                    href={`/vehicules/${vehicle.id}`}
+                    className={`group relative aspect-square rounded-2xl overflow-hidden cursor-pointer block ${
                       isVendu ? 'opacity-50' : ''
                     }`}
                   >
@@ -242,7 +217,7 @@ export default function HomePage() {
                         <p className="text-lg font-bold text-white/80 mt-1">{vehicle.prix.toLocaleString()} €</p>
                       )}
                     </div>
-                  </div>
+                  </Link>
                 );
               })}
             </div>
@@ -265,8 +240,51 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Contenu éditorial + maillage interne */}
+      <section className="bg-zinc-950 py-20 px-6 border-y border-white/5">
+        <div className="max-w-3xl mx-auto text-gray-300 space-y-6 text-base md:text-lg leading-relaxed">
+          <h2 className="text-2xl md:text-3xl font-bold text-white text-center">
+            Votre courtier automobile près du Bassin d&apos;Arcachon
+          </h2>
+          <p>
+            Basés à <strong className="text-white">Sanguinet</strong>, nous accompagnons les particuliers et
+            les professionnels pour l&apos;achat d&apos;une{' '}
+            <Link href="/nos-ventes" className="text-blue-400 hover:underline underline-offset-4">
+              voiture d&apos;occasion
+            </Link>{' '}
+            en toute confiance : historique vérifié, état du véhicule expliqué clairement, et conseils adaptés à
+            votre budget. Notre objectif est simple — vous faire gagner du temps tout en sécurisant votre projet
+            auto sur les <strong className="text-white">Landes</strong>, la{' '}
+            <strong className="text-white">Gironde</strong> et les départements voisins.
+          </p>
+          <p>
+            En parallèle de la vente, nous proposons un{' '}
+            <Link href="/Tarifs-Lavage-auto" className="text-blue-400 hover:underline underline-offset-4">
+              lavage automobile intérieur et extérieur
+            </Link>{' '}
+            (prestations medium, premium ou gold) pour préserver la valeur et le confort de votre véhicule.
+            Une question sur un modèle du stock ou un créneau d&apos;essai ?{' '}
+            <Link href="/contact" className="text-blue-400 hover:underline underline-offset-4">
+              Contactez notre équipe
+            </Link>
+            : nous répondons rapidement par téléphone, email ou formulaire.
+          </p>
+          <p>
+            Découvrez nos{' '}
+            <Link href="/services" className="text-blue-400 hover:underline underline-offset-4">
+              services détaillés
+            </Link>{' '}
+            (reprise, financement, garantie) et nos{' '}
+            <Link href="/blog" className="text-blue-400 hover:underline underline-offset-4">
+              guides d&apos;achat
+            </Link>{' '}
+            : checklist occasion, arnaques en ligne et démarches administratives.
+          </p>
+        </div>
+      </section>
+
       {/* Section Avantages */}
-      <section className="bg-black py-24 px-6 ">
+      <section id="services" className="bg-black py-24 px-6 scroll-mt-24">
         <div className="max-w-7xl mx-auto ">
           
           <div className="text-center mb-16">
@@ -281,7 +299,7 @@ export default function HomePage() {
           <div className="grid md:grid-cols-3 gap-12">
             
             {/* Avantage 1 */}
-            <div className="group text-center p-8 bg-gray-600 hover:bg-blue-50 transition-colors duration-300 rounded-lg">
+            <div className="group text-center p-8 bg-gray-600 rounded-lg ring-1 ring-white/5 transition-all duration-300 hover:bg-gray-700 hover:ring-blue-500/40">
               <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-300">
                 <svg className="w-10 h-10 text-blue-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -294,7 +312,7 @@ export default function HomePage() {
             </div>
 
             {/* Avantage 2 */}
-            <div className="group text-center p-8 bg-gray-600 hover:bg-blue-50 transition-colors duration-300 rounded-lg">
+            <div className="group text-center p-8 bg-gray-600 rounded-lg ring-1 ring-white/5 transition-all duration-300 hover:bg-gray-700 hover:ring-blue-500/40">
               <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-300">
                 <svg className="w-10 h-10 text-blue-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -307,7 +325,7 @@ export default function HomePage() {
             </div>
 
             {/* Avantage 3 */}
-            <div className="group text-center p-8 bg-gray-600 hover:bg-blue-50 transition-colors duration-300 rounded-lg">
+            <div className="group text-center p-8 bg-gray-600 rounded-lg ring-1 ring-white/5 transition-all duration-300 hover:bg-gray-700 hover:ring-blue-500/40">
               <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-300">
                 <svg className="w-10 h-10 text-blue-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
@@ -335,39 +353,31 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className=" text-white grid md:grid-cols-3 gap-8 ">
-            
+          <div className="text-white grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { num: "01", title: "Parcourez", desc: "Explorez notre stock en ligne ou en showroom", icon: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" },
-              { num: "02", title: "Essayez", desc: "Réservez un essai routier gratuit", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" },
-              { num: "03", title: "Roulez", desc: "Repartez avec votre véhicule", icon: "M5 13l4 4L19 7" }
-            ].map((step, idx) => (
-              <div key={idx} className="relative group">
+              { num: '01', title: 'Parcourez', desc: 'Explorez notre stock en ligne ou en showroom', icon: 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' },
+              { num: '02', title: 'Essayez', desc: 'Réservez un essai routier gratuit', icon: 'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2' },
+              { num: '03', title: 'Validez', desc: 'Offre, financement ou reprise : nous sécurisons les démarches avec vous', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z' },
+              { num: '04', title: 'Roulez', desc: 'Repartez avec votre véhicule, suivi et conseils si besoin', icon: 'M5 13l4 4L19 7' },
+            ].map((step, idx, arr) => (
+              <div key={step.num} className="relative group">
                 <div className="bg-gray-600 p-8 shadow-lg hover:shadow-2xl transition-all duration-300 border-t-4 border-blue-600 rounded-lg h-full">
-                  
-                  {/* Numéro */}
                   <div className="text-6xl font-bold text-blue-100 mb-4 group-hover:text-blue-200 transition-colors">
                     {step.num}
                   </div>
-                  
-                  {/* Icon */}
                   <div className="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center mb-6 group-hover:bg-blue-600 transition-colors">
                     <svg className="w-7 h-7 text-blue-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={step.icon} />
                     </svg>
                   </div>
-                  
                   <h3 className="text-2xl font-bold text-white mb-3">{step.title}</h3>
-                  <p className="text-white-600 leading-relaxed">{step.desc}</p>
+                  <p className="text-white/75 leading-relaxed">{step.desc}</p>
                 </div>
-                
-                {/* Connecteur */}
-                {idx < 3 && (
-                  <div className="hidden md:block absolute top-1/2 -right-4 w-8 h-0.5 bg-blue-200 z-10" />
+                {idx < arr.length - 1 && (
+                  <div className="hidden lg:block absolute top-1/2 -right-4 w-8 h-0.5 bg-blue-200 z-10" aria-hidden />
                 )}
               </div>
             ))}
-
           </div>
         </div>
       </section>
@@ -413,15 +423,6 @@ export default function HomePage() {
           
         </div>
       </section>
-
-      {/* Modal pour détails véhicule */}
-      {selectedVehicle && (
-        <VehicleModal
-          vehicle={selectedVehicle}
-          onClose={() => setSelectedVehicle(null)}
-          getImageUrl={getImageUrl}
-        />
-      )}
 
       <Footer />
     </>

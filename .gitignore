@@ -46,3 +46,4 @@ server.log
 postcss.config.js
 eslint.config.js
 error-log.txt
+cursor-prompt.md
