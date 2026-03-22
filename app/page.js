@@ -18,7 +18,6 @@ export default function HomePage() {
     fetchVehicules();
   }, []);
 
-  // Fonction pour récupérer les véhicules
   const fetchVehicules = async () => {
     setLoading(true);
     try {
@@ -26,7 +25,7 @@ export default function HomePage() {
         .from('vehicules')
         .select('*')
         .order('created_at', { ascending: false })
-        .limit(3); // Limiter à 3 véhicules pour la page d'accueil
+        .limit(3);
 
       if (error) throw error;
 
@@ -39,7 +38,6 @@ export default function HomePage() {
     }
   };
 
-  // Fonction pour gérer les erreurs d'image
   const handleImageError = (vehicleId) => {
     setImageErrors(prev => ({ ...prev, [vehicleId]: true }));
   };
@@ -48,12 +46,12 @@ export default function HomePage() {
     <>
       <Header />
       
-      {/* Hero Section avec l'image SAFECARS - RETIRÉ mt-20 et ajouté pt-20 */}
-      <section className="mt-20 pt-45 w-full h-screen overflow-hidden bg-black">
+      {/* FIX : relative + min-h-screen au lieu de h-screen pour éviter que le contenu passe sous le header */}
+      <section className="relative w-full min-h-screen overflow-hidden bg-black">
         <div className="absolute inset-0">
           <Image
             src="/image/Vente_de_voitures_en_journée.png"
-            alt="SafeCars — vente de véhicules d’occasion contrôlés, Sanguinet"
+            alt="SafeCars — vente de véhicules d'occasion contrôlés, Sanguinet"
             fill
             priority
             className="object-cover object-center"
@@ -64,13 +62,12 @@ export default function HomePage() {
         {/* Overlay dégradé */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/30" />
 
-        {/* Contenu Hero - Ajouté pt-20 pour compenser le header fixe */}
-        <div className="relative z-10 h-full flex items-center px-6 md:px-12 lg:px-20 pt-20">
+        {/* FIX : pt-20 (= hauteur du header) pour que le contenu commence sous le header */}
+        <div className="relative z-10 min-h-screen flex items-center px-6 md:px-12 lg:px-20 pt-20">
           <div className="max-w-4xl space-y-8">
-            
 
-            {/* Titre principal — marque + promesse SEO (un seul H1) */}
-            <h1 className="mt-18 text-4xl md:text-7xl lg:text-5xl font-bold text-white leading-tight">
+            {/* Titre principal */}
+            <h1 className="text-4xl md:text-7xl lg:text-5xl font-bold text-white leading-tight">
               <span className="block tracking-tight">SAFECARS</span>
               <span className="mt-4 block text-2xl md:text-4xl font-semibold text-gray-200 leading-snug">
                 Véhicules d&apos;occasion contrôlés — courtier auto à Sanguinet (Landes, 40)
@@ -116,12 +113,12 @@ export default function HomePage() {
             </div>
 
             {/* Stats */}
-            <div className="pb-53 grid grid-cols-2 gap-8 pt-7 border-t border-white/30">
+            <div className="grid grid-cols-2 gap-8 pt-7 border-t border-white/30">
               <div className="text-center sm:text-left">
                 <div className="text-4xl md:text-5xl font-bold text-white mb-2">100+</div>
                 <div className="text-sm md:text-base text-gray-300 font-light">Véhicules vendus</div>
               </div>
-              <div className=" mb-25 text-center sm:text-left">
+              <div className="text-center sm:text-left">
                 <div className="text-4xl md:text-5xl font-bold text-white mb-2">98%</div>
                 <div className="text-sm md:text-base text-gray-300 font-light">Clients satisfaits</div>
               </div>
@@ -140,7 +137,6 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Loader */}
           {loading && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {[...Array(3)].map((_, i) => (
@@ -149,14 +145,12 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* Aucun véhicule */}
           {!loading && vehicules.length === 0 && (
             <div className="text-center py-12">
               <p className="text-white/50 text-lg">Aucun véhicule disponible pour le moment.</p>
             </div>
           )}
 
-          {/* Véhicules disponibles */}
           {!loading && vehicules.length > 0 && (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
               {vehicules.map((vehicle) => {
@@ -174,7 +168,6 @@ export default function HomePage() {
                       isVendu ? 'opacity-50' : ''
                     }`}
                   >
-                    {/* Image principale */}
                     {imageUrl && !imageErrors[vehicle.id] ? (
                       <img
                         src={imageUrl}
@@ -194,7 +187,6 @@ export default function HomePage() {
                       </div>
                     )}
 
-                    {/* Badge VENDU ou RÉSERVÉ */}
                     {isVendu && (
                       <div className="absolute top-4 right-4 bg-red-600 text-white px-4 py-2 rounded-lg font-bold text-sm shadow-lg z-10">
                         VENDU
@@ -206,10 +198,8 @@ export default function HomePage() {
                       </div>
                     )}
 
-                    {/* Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent group-hover:from-blue-600/40 transition-all duration-500"></div>
 
-                    {/* Infos véhicule */}
                     <div className="absolute bottom-0 left-0 right-0 p-4">
                       <p className="text-sm text-blue-400 font-bold mb-1">{vehicle.marque}</p>
                       <p className="text-xl font-black text-white">{vehicle.modele}</p>
@@ -223,7 +213,6 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* Bouton voir tous les véhicules */}
           {!loading && vehicules.length > 0 && (
             <div className="text-center">
               <Link
@@ -285,8 +274,7 @@ export default function HomePage() {
 
       {/* Section Avantages */}
       <section id="services" className="bg-black py-24 px-6 scroll-mt-24">
-        <div className="max-w-7xl mx-auto ">
-          
+        <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <span className="text-white font-semibold tracking-wider uppercase text-sm mb-4 block">
               Nos engagements
@@ -297,8 +285,6 @@ export default function HomePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-12">
-            
-            {/* Avantage 1 */}
             <div className="group text-center p-8 bg-gray-600 rounded-lg ring-1 ring-white/5 transition-all duration-300 hover:bg-gray-700 hover:ring-blue-500/40">
               <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-300">
                 <svg className="w-10 h-10 text-blue-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -311,7 +297,6 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* Avantage 2 */}
             <div className="group text-center p-8 bg-gray-600 rounded-lg ring-1 ring-white/5 transition-all duration-300 hover:bg-gray-700 hover:ring-blue-500/40">
               <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-300">
                 <svg className="w-10 h-10 text-blue-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -324,7 +309,6 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* Avantage 3 */}
             <div className="group text-center p-8 bg-gray-600 rounded-lg ring-1 ring-white/5 transition-all duration-300 hover:bg-gray-700 hover:ring-blue-500/40">
               <div className="w-20 h-20 mx-auto mb-6 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-600 group-hover:scale-110 transition-all duration-300">
                 <svg className="w-10 h-10 text-blue-600 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -341,9 +325,8 @@ export default function HomePage() {
       </section>
 
       {/* Section Processus */}
-      <section className="bg-black from-gray-50 to-white py-24 px-6">
+      <section className="bg-black py-24 px-6">
         <div className="max-w-7xl mx-auto">
-          
           <div className="text-center mb-16">
             <span className="text-white font-semibold tracking-wider uppercase text-sm mb-4 block">
               Comment ça marche
@@ -384,7 +367,6 @@ export default function HomePage() {
 
       {/* CTA Final */}
       <section className="relative bg-blue-600 py-24 px-6 overflow-hidden">
-        {/* Pattern background */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
@@ -420,7 +402,6 @@ export default function HomePage() {
               Prendre rendez-vous
             </Link>
           </div>
-          
         </div>
       </section>
 
