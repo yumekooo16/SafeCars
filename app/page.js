@@ -49,7 +49,7 @@ export default function HomePage() {
       <Header />
       
       {/* Hero Section avec l'image SAFECARS - RETIRÉ mt-20 et ajouté pt-20 */}
-      <section className="mt-20 w-full h-screen overflow-hidden bg-black">
+      <section className="mt-20 pt-45 w-full h-screen overflow-hidden bg-black">
         <div className="absolute inset-0">
           <Image
             src="/image/Vente_de_voitures_en_journée.png"
@@ -116,7 +116,7 @@ export default function HomePage() {
             </div>
 
             {/* Stats */}
-            <div className="mb-25 grid grid-cols-2 gap-8 pt-16 border-t border-white/30">
+            <div className="pb-53 grid grid-cols-2 gap-8 pt-7 border-t border-white/30">
               <div className="text-center sm:text-left">
                 <div className="text-4xl md:text-5xl font-bold text-white mb-2">100+</div>
                 <div className="text-sm md:text-base text-gray-300 font-light">Véhicules vendus</div>
