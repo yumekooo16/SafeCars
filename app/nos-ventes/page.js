@@ -49,9 +49,14 @@ export default function NosVentes() {
       <Header />
 
       <main className="px-4 sm:px-6 lg:px-8 pt-24 pb-12 max-w-7xl mx-auto">
-        <h1 className="text-5xl font-black mb-6 text-center bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent">
-          Nos véhicules
-        </h1>
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <h1 className="text-5xl font-black text-center bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent">
+            Nos véhicules
+          </h1>
+          <Link href="/nos-ventes/vendus" className="ml-4 inline-block rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:bg-red-700">
+            Voir les véhicules vendus
+          </Link>
+        </div>
         <p className="text-white/60 text-center max-w-2xl mx-auto mb-16 text-lg leading-relaxed">
           Stock SafeCars à Sanguinet (Landes) : occasions contrôlées, statut affiché (disponible, réservé, vendu).
           Ouvrez une fiche pour toutes les photos et les détails, ou{' '}
@@ -78,7 +83,7 @@ export default function NosVentes() {
         {!loading &&
           vehicules.length > 0 &&
           brands.map((brand) => {
-            const brandVehicules = vehicules.filter((v) => v.marque === brand);
+                const brandVehicules = vehicules.filter((v) => v.marque === brand && v.statut !== 'vendu');
             if (brandVehicules.length === 0) return null;
 
             return (

@@ -47,3 +47,6 @@ postcss.config.js
 eslint.config.js
 error-log.txt
 cursor-prompt.md
+create-first-admin.js
+hash.js
+update-password.js

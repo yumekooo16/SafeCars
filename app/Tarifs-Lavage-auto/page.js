@@ -193,10 +193,6 @@ export default function TarifsLavageAuto() {
 
           <div className="space-y-6">
             <FAQItem
-              question="Où intervenez-vous ?"
-              answer="Nous intervenons à domicile ou en atelier, selon votre préférence."
-            />
-            <FAQItem
               question="Combien de temps dure un nettoyage complet ?"
               answer="Entre 2h et 4h selon l'état du véhicule."
             />

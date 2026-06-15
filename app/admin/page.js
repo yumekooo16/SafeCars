@@ -27,7 +27,8 @@ function ManageVehicules() {
     couleur: '',
     description: '',
     images: [],
-    statut: 'disponible'
+    statut: 'disponible',
+    videos: [null, null, null]
   });
 
   useEffect(() => {
@@ -147,6 +148,48 @@ function ManageVehicules() {
     }
   };
 
+  const handleVideoUpload = async (file, index) => {
+    if (!file) return;
+    setUploadingImage(true);
+    setErrorMessage('');
+    try {
+      const uploadFormData = new FormData();
+      // send as 'video' for clarity
+      uploadFormData.append('video', file);
+
+      const res = await fetch('/api/upload-image', {
+        method: 'POST',
+        body: uploadFormData
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setFormData(prev => {
+          const newVideos = Array.isArray(prev.videos) ? [...prev.videos] : [null, null, null];
+          newVideos[index] = data.url;
+          return { ...prev, videos: newVideos };
+        });
+      } else {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Erreur upload vidéo');
+      }
+    } catch (error) {
+      console.error('Erreur upload vidéo:', error);
+      setErrorMessage(error.message || 'Erreur lors de l\'upload de la vidéo');
+      setTimeout(() => setErrorMessage(''), 5000);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleRemoveVideo = (index) => {
+    setFormData(prev => {
+      const newVideos = Array.isArray(prev.videos) ? [...prev.videos] : [null, null, null];
+      newVideos[index] = null;
+      return { ...prev, videos: newVideos };
+    });
+  };
+
   const handleRemoveImage = (index) => {
     setFormData(prev => ({
       ...prev,
@@ -246,17 +289,23 @@ function ManageVehicules() {
           }, 2000);
         }
       } else {
-        try {
-          const errorData = await res.json();
-          console.error('❌ Erreur serveur:', errorData); // DEBUG
-          const errorMessage = errorData?.error || errorData?.message || `Erreur ${res.status}: ${res.statusText}`;
-          setErrorMessage(errorMessage);
-        } catch (jsonError) {
-          // Si on ne peut pas parser le JSON, on utilise le statut HTTP
-          console.error('❌ Erreur parsing JSON d\'erreur:', jsonError);
-          const statusText = res.statusText || 'Erreur inconnue';
-          setErrorMessage(`Erreur ${res.status}: ${statusText}`);
-        }
+          try {
+            const text = await res.text();
+            let errorData = {};
+            try {
+              errorData = text ? JSON.parse(text) : {};
+            } catch (parseErr) {
+              // non-JSON response
+              console.error('❌ Response text (non-JSON):', text);
+            }
+            console.error('❌ Erreur serveur statut:', res.status, res.statusText, 'body:', errorData || text);
+            const errorMessage = (errorData && (errorData.error || errorData.message)) || `Erreur ${res.status}: ${res.statusText}`;
+            setErrorMessage(errorMessage);
+          } catch (err) {
+            console.error('❌ Impossible de lire la réponse d\'erreur:', err);
+            const statusText = res.statusText || 'Erreur inconnue';
+            setErrorMessage(`Erreur ${res.status}: ${statusText}`);
+          }
         setTimeout(() => setErrorMessage(''), 5000);
       }
     } catch (error) {
@@ -280,7 +329,8 @@ function ManageVehicules() {
       couleur: vehicle.couleur || '',
       description: vehicle.description || '',
       images: vehicle.images || [],
-      statut: vehicle.statut || 'disponible'
+      statut: vehicle.statut || 'disponible',
+      videos: vehicle.videos || [null, null, null]
     };
     console.log('📝 FormData après édition:', newFormData); // DEBUG
     setFormData(newFormData);
@@ -327,7 +377,8 @@ function ManageVehicules() {
       couleur: '',
       description: '',
       images: [],
-      statut: 'disponible'
+      statut: 'disponible',
+      videos: [null, null, null]
     });
     setEditingVehicle(null);
     setShowForm(false);
@@ -387,7 +438,42 @@ function ManageVehicules() {
             <div className="mb-4 p-3 bg-red-900/50 border border-red-500 rounded text-red-200 text-sm">
               ⚠️ {errorMessage}
             </div>
+
           )}
+
+          {/* Upload vidéos */}
+            <div>
+              <label className="block text-white text-sm mb-2">Vidéos (Extérieur · Intérieur · En mouvement)</label>
+              <div className="flex gap-3 mb-3">
+                {[0,1,2].map((i) => {
+                  const url = formData.videos?.[i];
+                  const labels = ['Extérieur','Intérieur','En mouvement'];
+                  return (
+                    <div key={i} className="w-1/3">
+                      {url ? (
+                        <div className="relative bg-black rounded overflow-hidden">
+                          <video src={getImageUrl(url) || url} controls className="w-full h-40 object-cover" />
+                          <div className="p-2 flex gap-2 justify-between">
+                            <button type="button" onClick={() => handleRemoveVideo(i)} className="bg-red-600 text-white px-3 py-1 rounded text-sm">Supprimer</button>
+                            <label className="bg-blue-600 text-white px-3 py-1 rounded text-sm cursor-pointer">
+                              Remplacer
+                              <input type="file" accept="video/*" className="hidden" onChange={(e) => handleVideoUpload(e.target.files?.[0], i)} />
+                            </label>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="p-3 border border-dashed border-gray-600 rounded text-center">
+                          <label className="cursor-pointer inline-block w-full py-6 px-2 bg-gray-700 text-white rounded">
+                            + {labels[i]}
+                            <input type="file" accept="video/*" className="hidden" onChange={(e) => handleVideoUpload(e.target.files?.[0], i)} />
+                          </label>
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
           {successMessage && (
             <div className="mb-4 p-3 bg-green-900/50 border border-green-500 rounded text-green-200 text-sm">
               ✓ {successMessage}

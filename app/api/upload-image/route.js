@@ -4,7 +4,8 @@ import { NextResponse } from 'next/server';
 export async function POST(request) {
   try {
     const formData = await request.formData();
-    const file = formData.get('image');
+    // accept different field names for compatibility: image, video, file
+    const file = formData.get('image') || formData.get('video') || formData.get('file');
 
     if (!file) {
       return NextResponse.json({ error: 'Aucun fichier' }, { status: 400 });
@@ -12,7 +13,8 @@ export async function POST(request) {
 
     // Générer un nom de fichier unique
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const filename = `vehicule-${uniqueSuffix}-${file.name}`;
+    const safeName = file.name ? file.name.replace(/[^a-zA-Z0-9.\-\_]/g, '_') : 'upload'
+    const filename = `vehicule-${uniqueSuffix}-${safeName}`;
 
     // Upload vers Vercel Blob
     const blob = await put(filename, file, {
@@ -21,7 +23,8 @@ export async function POST(request) {
 
     return NextResponse.json({ 
       success: true, 
-      url: blob.url 
+      url: blob.url,
+      contentType: file.type || null,
     });
 
   } catch (error) {

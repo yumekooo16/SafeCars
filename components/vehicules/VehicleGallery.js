@@ -3,10 +3,11 @@
 import { useState } from 'react'
 import Image from 'next/image'
 
-export default function VehicleGallery({ imageUrls, altBase }) {
+export default function VehicleGallery({ imageUrls, altBase, videoUrls = [] }) {
   const [index, setIndex] = useState(0)
   const [broken, setBroken] = useState({})
   const [thumbBroken, setThumbBroken] = useState({})
+  const [playing, setPlaying] = useState(null)
 
   if (!imageUrls?.length) {
     return (
@@ -88,6 +89,38 @@ export default function VehicleGallery({ imageUrls, altBase }) {
               )}
             </button>
           ))}
+        </div>
+      )}
+
+      {videoUrls && videoUrls.length > 0 && (
+        <div className="mt-3 flex items-center justify-center gap-3">
+          {videoUrls.map((v, i) => {
+            const labels = ['Extérieur Vehicule', 'Intérieur Vehicule', 'Vehicule En mouvement']
+            return (
+              <button
+                key={v + '-' + i}
+                type="button"
+                onClick={() => setPlaying(v)}
+                className="flex items-center gap-2 rounded-lg bg-black/60 px-3 py-2 text-sm text-white hover:bg-black/80"
+              >
+                <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white/10">▶</span>
+                <span>{labels[i] ?? `Vidéo ${i + 1}`}</span>
+              </button>
+            )
+          })}
+        </div>
+      )}
+
+      {playing && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4" onClick={() => setPlaying(null)}>
+          <div className="w-full max-w-4xl bg-black rounded-lg overflow-hidden" onClick={(e) => e.stopPropagation()}>
+            <div className="relative aspect-video bg-black">
+              <video src={playing} controls autoPlay className="w-full h-full object-contain" />
+            </div>
+            <div className="p-3 text-right">
+              <button onClick={() => setPlaying(null)} className="rounded px-4 py-2 bg-white/10 text-white">Fermer</button>
+            </div>
+          </div>
         </div>
       )}
     </div>

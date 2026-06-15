@@ -90,6 +90,7 @@ export async function PUT(request) {
       couleur: body.couleur?.trim() || null,
       description: body.description?.trim() || null,
       images: Array.isArray(body.images) ? body.images : [],
+      videos: Array.isArray(body.videos) ? body.videos : [],
       statut: statut,
       is_featured: body.is_featured || false
     };
@@ -106,8 +107,9 @@ export async function PUT(request) {
 
     if (error) {
       console.error('❌ Erreur Supabase:', error);
+      const errMsg = (error && (error.message || error.detail || JSON.stringify(error))) || 'Erreur Supabase';
       return NextResponse.json(
-        { error: `Erreur Supabase: ${error.message}` },
+        { error: `Erreur Supabase: ${errMsg}` },
         { status: 400 }
       );
     }
@@ -122,8 +124,9 @@ export async function PUT(request) {
 
   } catch (error) {
     console.error('❌ Erreur serveur:', error);
+    const errMsg = (error && (error.message || String(error))) || 'Erreur serveur';
     return NextResponse.json(
-      { error: 'Erreur serveur', details: error.message },
+      { error: 'Erreur serveur', details: errMsg },
       { status: 500 }
     );
   }

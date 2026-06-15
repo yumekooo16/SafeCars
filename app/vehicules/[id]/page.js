@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import Header from '@/components/allpages/Header'
 import Footer from '@/components/allpages/Footer'
 import VehicleGallery from '@/components/vehicules/VehicleGallery'
+import VehicleReservationCard from '@/components/vehicules/VehicleReservationCard'
 import { fetchVehiculeById } from '@/lib/vehicules'
 import { getVehicleImageUrl } from '@/lib/vehicleImageUrl'
 
@@ -52,6 +53,7 @@ export default async function VehiculePage({ params }) {
   if (!vehicle) notFound()
 
   const imageUrls = (vehicle.images || []).map(getVehicleImageUrl).filter(Boolean)
+  const videoUrls = (vehicle.videos || []).map(getVehicleImageUrl).filter(Boolean)
   const altBase = `${vehicle.marque} ${vehicle.modele}`.trim()
   const isVendu = vehicle.statut === 'vendu'
   const isReserve = vehicle.statut === 'reserve'
@@ -120,7 +122,7 @@ export default async function VehiculePage({ params }) {
             </div>
           </div>
 
-          <VehicleGallery imageUrls={imageUrls} altBase={altBase} />
+          <VehicleGallery imageUrls={imageUrls} altBase={altBase} videoUrls={videoUrls} />
 
           {vehicle.prix != null && (
             <p className="mt-8 text-center text-4xl font-black text-blue-400">
@@ -161,6 +163,8 @@ export default async function VehiculePage({ params }) {
           {!vehicle.description && (
             <p className="mt-10 text-white/60 leading-relaxed">{fallbackDescription}</p>
           )}
+
+          {!isVendu && !isReserve ? <VehicleReservationCard vehicle={vehicle} /> : null}
 
           <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
             <Link

@@ -325,11 +325,11 @@ export default function ContactPage() {
                   </div>
                   <div className="flex justify-between">
                     <span>Samedi</span>
-                    <span className="font-bold text-white">9h - 18h</span>
+                    <span className="font-bold text-white">9h - 12h</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Dimanche</span>
-                    <span className="font-bold text-blue-500">Sur rendez-vous</span>
+                    <span className="font-bold text-blue-500">Fermé</span>
                   </div>
                 </div>
               </div>
