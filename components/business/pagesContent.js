@@ -42,7 +42,7 @@ export function NotreMethodeBody() {
         véhicule.
       </p>
       <p>
-        <Link href="/contact" className="sc-link font-medium">
+        <Link href="/contact" className="text-blue-400 font-semibold">
           Contactez-nous
         </Link>{' '}
         pour préciser votre recherche ou planifier une visite.
@@ -81,7 +81,7 @@ export function RepriseBody() {
         clarté administrative. Nous préférons un chiffre défendable à une promesse irréaliste.
       </p>
       <p>
-        <Link href="/contact" className="sc-link font-medium">
+        <Link href="/contact" className="text-blue-400 font-semibold">
           Demander une estimation de reprise
         </Link>
       </p>
@@ -169,7 +169,7 @@ export function GarantieBody() {
         <Link href="/faq-achat-auto">FAQ</Link> répondent aux questions fréquentes.
       </p>
       <p>
-        <Link href="/contact" className="sc-link font-medium">
+        <Link href="/contact" className="text-blue-400 font-semibold">
           Questions sur la garantie d&apos;un véhicule précis
         </Link>
       </p>
@@ -201,7 +201,7 @@ export function CourtierSanguinetBody() {
       </ul>
       <p>
         <Link href="/nos-ventes">Voir le stock</Link> ·{' '}
-        <Link href="/contact" className="font-medium sc-link">
+        <Link href="/contact" className="font-semibold text-blue-400">
           Nous contacter
         </Link>
       </p>
@@ -292,7 +292,7 @@ export function LavageProBody() {
         acheteur ou à un professionnel.
       </p>
       <p>
-        <Link href="/contact" className="sc-link font-medium">
+        <Link href="/contact" className="text-blue-400 font-semibold">
           Demander un créneau ou un devis
         </Link>
       </p>

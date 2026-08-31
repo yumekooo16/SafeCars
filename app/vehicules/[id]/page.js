@@ -27,6 +27,7 @@ export async function generateMetadata({ params }) {
   const description = descParts.join(' · ')
   const imageUrls = (vehicle.images || []).map(getVehicleImageUrl).filter(Boolean)
   const ogImage = imageUrls[0]
+
   const isSold = vehicle.statut === 'vendu'
 
   return {
@@ -44,12 +45,6 @@ export async function generateMetadata({ params }) {
   }
 }
 
-function StatusBadge({ statut }) {
-  if (statut === 'vendu') return <span className="sc-badge sc-badge--sold">Vendu</span>
-  if (statut === 'reserve') return <span className="sc-badge sc-badge--reserve">Réservé</span>
-  return <span className="sc-badge sc-badge--available">Disponible</span>
-}
-
 export default async function VehiculePage({ params }) {
   const { id } = await params
   const vehicle = await fetchVehiculeById(id)
@@ -63,7 +58,7 @@ export default async function VehiculePage({ params }) {
   const isReserve = vehicle.statut === 'reserve'
 
   const fallbackDescription =
-    `${vehicle.marque} ${vehicle.modele}${vehicle.annee ? ` (${vehicle.annee})` : ''} — véhicule d'occasion proposé par SafeCars à Sanguinet dans les Landes.`
+    `${vehicle.marque} ${vehicle.modele}${vehicle.annee ? ` (${vehicle.annee})` : ''} — véhicule d’occasion proposé par SafeCars à Sanguinet dans les Landes.`
 
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -88,96 +83,116 @@ export default async function VehiculePage({ params }) {
   }
 
   return (
-    <div className="sc-page">
+    <>
       <Header />
-      <main className="sc-container pb-20 pt-28 md:pt-32">
-        <nav className="text-sm text-[var(--text-subtle)] mb-8" aria-label="Fil d'Ariane">
-          <Link href="/" className="sc-link no-underline hover:underline">
-            Accueil
-          </Link>
-          <span className="mx-2">/</span>
-          <Link href="/nos-ventes" className="sc-link no-underline hover:underline">
-            Nos véhicules
-          </Link>
-          <span className="mx-2">/</span>
-          <span className="text-[var(--text-muted)]">{altBase}</span>
-        </nav>
+      <main className="min-h-screen bg-black text-white pt-24 pb-16 px-4 sm:px-6">
+        <div className="max-w-5xl mx-auto">
+          <nav className="text-sm text-white/50 mb-8">
+            <Link href="/" className="hover:text-blue-400">
+              Accueil
+            </Link>
+            <span className="mx-2">/</span>
+            <Link href="/nos-ventes" className="hover:text-blue-400">
+              Nos véhicules
+            </Link>
+            <span className="mx-2">/</span>
+            <span className="text-white/80">{altBase}</span>
+          </nav>
 
-        <div className="flex flex-wrap items-start justify-between gap-4 mb-8">
-          <div>
-            <p className="sc-kicker mb-2">Fiche véhicule</p>
-            <h1 className="sc-display text-3xl sm:text-4xl md:text-5xl">
+          <div className="flex flex-wrap items-start justify-between gap-4 mb-8">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight">
               {vehicle.marque} {vehicle.modele}
               {vehicle.annee ? (
-                <span className="block sm:inline sm:ml-2 text-xl sm:text-2xl text-[var(--text-muted)] font-normal">
+                <span className="block sm:inline sm:ml-2 text-xl sm:text-2xl font-semibold text-white/70">
                   {vehicle.annee}
                 </span>
               ) : null}
             </h1>
+            <div className="flex flex-wrap gap-2">
+              {isVendu && (
+                <span className="rounded-lg bg-red-600 px-4 py-2 text-sm font-bold">Vendu</span>
+              )}
+              {isReserve && !isVendu && (
+                <span className="rounded-lg bg-orange-600 px-4 py-2 text-sm font-bold">Réservé</span>
+              )}
+              {!isVendu && !isReserve && (
+                <span className="rounded-lg bg-green-600/90 px-4 py-2 text-sm font-bold">Disponible</span>
+              )}
+            </div>
           </div>
-          <StatusBadge statut={vehicle.statut} />
-        </div>
 
-        <VehicleGallery imageUrls={imageUrls} altBase={altBase} videoUrls={videoUrls} />
+          <VehicleGallery imageUrls={imageUrls} altBase={altBase} videoUrls={videoUrls} />
 
-        {vehicle.prix != null && (
-          <p className="mt-8 text-center font-serif text-3xl md:text-4xl text-[var(--silver)]">
-            {Number(vehicle.prix).toLocaleString('fr-FR')} €
-          </p>
-        )}
-
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {[
-            ['Année', vehicle.annee],
-            ['Kilométrage', vehicle.kilometrage != null ? `${Number(vehicle.kilometrage).toLocaleString('fr-FR')} km` : null],
-            ['Carburant', vehicle.carburant],
-            ['Transmission', vehicle.transmission],
-          ].map(([label, val]) =>
-            val ? (
-              <div key={label} className="sc-card sc-card-padded">
-                <div className="text-xs uppercase tracking-wider text-[var(--text-subtle)]">{label}</div>
-                <div className="mt-1 text-lg font-medium">{val}</div>
-              </div>
-            ) : null
-          )}
-        </div>
-
-        {vehicle.couleur && (
-          <div className="mt-6 sc-card sc-card-padded max-w-sm">
-            <div className="text-xs uppercase tracking-wider text-[var(--text-subtle)]">Couleur</div>
-            <div className="mt-1 text-lg font-medium">{vehicle.couleur}</div>
-          </div>
-        )}
-
-        {vehicle.description ? (
-          <div className="mt-10 max-w-3xl">
-            <h2 className="sc-display text-xl mb-3">Description</h2>
-            <p className="text-[var(--text-muted)] whitespace-pre-line leading-relaxed">{vehicle.description}</p>
-          </div>
-        ) : (
-          <p className="mt-10 max-w-3xl text-[var(--text-muted)] leading-relaxed">{fallbackDescription}</p>
-        )}
-
-        {!isVendu && !isReserve ? (
-          <section className="mt-10 sc-card sc-card-padded max-w-2xl mx-auto text-center border-[var(--border-accent)]">
-            <p className="sc-kicker">Essai & contact</p>
-            <h2 className="sc-display mt-2 text-2xl sm:text-3xl">Intéressé par ce véhicule ?</h2>
-            <p className="mx-auto mt-3 max-w-xl text-[var(--text-muted)]">
-              Contactez-nous pour organiser un essai, obtenir plus d&apos;informations ou discuter d&apos;une reprise.
+          {vehicle.prix != null && (
+            <p className="mt-8 text-center text-4xl font-black text-blue-400">
+              {Number(vehicle.prix).toLocaleString('fr-FR')} €
             </p>
-            <Link href="/contact" className="sc-btn sc-btn-primary sc-btn-lg mt-6">
-              Nous contacter
-            </Link>
-          </section>
-        ) : null}
+          )}
 
-        <div className="mt-12 flex flex-col sm:flex-row gap-3 justify-center">
-          <Link href="/contact" className="sc-btn sc-btn-primary">
-            Demander plus d&apos;informations
-          </Link>
-          <Link href="/nos-ventes" className="sc-btn sc-btn-secondary">
-            Voir tout le stock
-          </Link>
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              ['Année', vehicle.annee],
+              ['Kilométrage', vehicle.kilometrage != null ? `${Number(vehicle.kilometrage).toLocaleString('fr-FR')} km` : null],
+              ['Carburant', vehicle.carburant],
+              ['Transmission', vehicle.transmission],
+            ].map(([label, val]) =>
+              val ? (
+                <div key={label} className="rounded-xl border border-white/10 bg-white/5 p-4">
+                  <div className="text-xs uppercase tracking-wide text-white/50">{label}</div>
+                  <div className="mt-1 text-lg font-semibold">{val}</div>
+                </div>
+              ) : null
+            )}
+          </div>
+
+          {vehicle.couleur && (
+            <div className="mt-6 rounded-xl border border-white/10 bg-white/5 p-4">
+              <div className="text-xs uppercase tracking-wide text-white/50">Couleur</div>
+              <div className="mt-1 text-lg font-semibold">{vehicle.couleur}</div>
+            </div>
+          )}
+
+          {vehicle.description && (
+            <div className="mt-10 max-w-none">
+              <h2 className="text-xl font-bold text-white mb-3">Description</h2>
+              <p className="text-white/80 whitespace-pre-line leading-relaxed">{vehicle.description}</p>
+            </div>
+          )}
+
+          {!vehicle.description && (
+            <p className="mt-10 text-white/60 leading-relaxed">{fallbackDescription}</p>
+          )}
+
+          {!isVendu && !isReserve ? (
+            <section className="mt-10 rounded-2xl border border-blue-500/30 bg-gradient-to-b from-blue-500/10 to-black p-6 sm:p-8 text-center">
+              <p className="text-xs uppercase tracking-[0.2em] text-blue-300">Essai & contact</p>
+              <h2 className="mt-2 text-2xl font-black sm:text-3xl">Intéressé par ce véhicule ?</h2>
+              <p className="mx-auto mt-3 max-w-xl text-white/75">
+                Contactez-nous pour organiser un essai, obtenir plus d&apos;informations ou discuter d&apos;une reprise.
+              </p>
+              <Link
+                href="/contact"
+                className="mt-6 inline-flex justify-center rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-4 font-bold text-white hover:shadow-lg hover:shadow-blue-500/40 transition-all"
+              >
+                Nous contacter
+              </Link>
+            </section>
+          ) : null}
+
+          <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/contact"
+              className="inline-flex justify-center rounded-xl bg-green-600 px-8 py-4 text-center font-bold text-white hover:bg-green-700 transition-colors"
+            >
+              Demander plus d&apos;informations
+            </Link>
+            <Link
+              href="/nos-ventes"
+              className="inline-flex justify-center rounded-xl border-2 border-white/30 px-8 py-4 font-semibold text-white hover:border-blue-400 hover:text-blue-400 transition-colors"
+            >
+              Voir tout le stock
+            </Link>
+          </div>
         </div>
 
         <script
@@ -186,6 +201,6 @@ export default async function VehiculePage({ params }) {
         />
       </main>
       <Footer />
-    </div>
+    </>
   )
 }

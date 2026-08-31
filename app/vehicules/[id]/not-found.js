@@ -4,19 +4,21 @@ import Footer from '@/components/allpages/Footer'
 
 export default function VehiculeNotFound() {
   return (
-    <div className="sc-page">
+    <>
       <Header />
-      <main className="sc-container flex min-h-[50vh] flex-col items-center justify-center py-24 text-center">
-        <p className="sc-kicker mb-3">404</p>
-        <h1 className="sc-display text-3xl mb-4">Véhicule introuvable</h1>
-        <p className="text-[var(--text-muted)] mb-8 max-w-md">
-          Cette annonce n&apos;existe pas ou n&apos;est plus en ligne. Consultez notre stock actuel.
+      <main className="min-h-screen bg-black text-white pt-32 pb-24 px-6 text-center">
+        <h1 className="text-3xl font-bold mb-4">Véhicule introuvable</h1>
+        <p className="text-white/60 mb-8 max-w-md mx-auto">
+          Cette annonce n’existe pas ou n’est plus en ligne. Consultez notre stock actuel.
         </p>
-        <Link href="/nos-ventes" className="sc-btn sc-btn-primary">
+        <Link
+          href="/nos-ventes"
+          className="inline-flex rounded-xl bg-blue-600 px-8 py-3 font-semibold text-white hover:bg-blue-700 transition-colors"
+        >
           Voir nos véhicules
         </Link>
       </main>
       <Footer />
-    </div>
+    </>
   )
 }

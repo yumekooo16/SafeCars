@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Header from '@/components/allpages/Header'
 import Footer from '@/components/allpages/Footer'
-import PageHero from '@/components/ui/PageHero'
 
 export const metadata = {
   title: 'Services — achat, reprise, financement, lavage',
@@ -26,31 +25,40 @@ const links = [
 
 export default function ServicesHubPage() {
   return (
-    <div className="sc-page">
+    <>
       <Header />
-      <PageHero
-        kicker="Services"
-        title="Nos services"
-        subtitle="Achat d'occasion contrôlée, reprise, financement et lavage auto — tout ce que propose SafeCars depuis Sanguinet."
-      />
-      <main className="sc-container pb-20 -mt-2">
-        <ul className="grid sm:grid-cols-2 gap-4">
-          {links.map((item) => (
-            <li key={item.href}>
-              <Link href={item.href} className="sc-card sc-card-padded block h-full hover:border-[var(--border-accent)] transition-colors">
-                <span className="sc-display text-lg">{item.title}</span>
-                <p className="text-sm sc-muted mt-2 leading-relaxed">{item.desc}</p>
-              </Link>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-12">
-          <Link href="/contact" className="sc-btn sc-btn-primary">
-            Nous contacter
-          </Link>
+      <main className="bg-black text-white min-h-screen pt-28 pb-20 px-4 sm:px-6">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-black mb-4">Nos services</h1>
+          <p className="text-lg text-white/60 mb-12 max-w-2xl">
+            Achat d&apos;occasion contrôlée, reprise, financement et lavage auto : tout ce que propose SafeCars
+            depuis <strong>Sanguinet</strong> pour les conducteurs des <strong>Landes</strong> et du{' '}
+            <strong>Bassin d&apos;Arcachon</strong>.
+          </p>
+          <ul className="grid sm:grid-cols-2 gap-4">
+            {links.map((item) => (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  className="block rounded-xl border border-white/10 bg-white/[0.03] p-5 hover:border-blue-500/50 transition-colors h-full"
+                >
+                  <span className="font-bold text-white text-lg">{item.title}</span>
+                  <p className="text-sm text-white/55 mt-2 leading-relaxed">{item.desc}</p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="mt-12 text-center">
+            <Link
+              href="/contact"
+              className="inline-flex rounded-xl bg-blue-600 px-8 py-4 font-bold text-white hover:bg-blue-700"
+            >
+              Nous contacter
+            </Link>
+          </div>
         </div>
       </main>
       <Footer />
-    </div>
+    </>
   )
 }

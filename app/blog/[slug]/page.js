@@ -43,7 +43,7 @@ export default async function BlogArticlePage({ params }) {
         />
       }
     >
-      <p className="text-lg text-[var(--text-muted)] mb-10 pb-8 border-b border-[var(--border)] leading-relaxed">
+      <p className="text-lg text-white/70 mb-10 pb-8 border-b border-white/10 leading-relaxed">
         {description}
       </p>
       <Content />
