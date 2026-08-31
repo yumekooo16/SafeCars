@@ -40,7 +40,7 @@ export default function OccasionLandesSanguinet() {
       <h2>Services complémentaires : lavage et présentation</h2>
       <p>
         Un véhicule bien présenté reflète souvent un suivi sérieux. SafeCars propose également des{' '}
-        <Link href="/Tarifs-Lavage-auto">prestations de lavage automobile</Link> (intérieur / extérieur) :
+        <Link href="/tarifs-lavage-auto">prestations de lavage automobile</Link> (intérieur / extérieur) :
         utile avant une reprise ou pour entretenir votre auto après achat.
       </p>
 

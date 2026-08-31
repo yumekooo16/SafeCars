@@ -12,7 +12,7 @@ const MOBILE_LINKS = [
   { href: "/blog", label: "Guides", variant: "blue" },
   { href: "/contact", label: "Contact", variant: "blue" },
   {
-    href: "/Tarifs-Lavage-auto",
+    href: "/tarifs-lavage-auto",
     label: "Tarifs Lavage Auto",
     variant: "amber",
   },
@@ -81,8 +81,8 @@ export default function Header() {
                 Contact
               </Link>
               <Link 
-                href="/Tarifs-Lavage-auto"
-                className="text-sm font-medium text-white/70 hover:text-white transition-colors duration-300"
+                href="/tarifs-lavage-auto"
+                className="text-sm font-medium text-amber-400/90 hover:text-amber-400 transition-colors duration-300"
               >
                 Tarifs Lavage Auto
               </Link>

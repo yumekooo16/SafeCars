@@ -3,6 +3,7 @@
 import React from 'react';
 import Header from '@/components/allpages/Header.js';
 import Footer from '@/components/allpages/Footer.js';
+import PageHero from '@/components/ui/PageHero';
 import Link from 'next/link';
 
 /* =========================
@@ -57,9 +58,9 @@ function FAQItem({ question, answer }) {
 export default function TarifsLavageAuto() {
 
   const PrestationCard = ({ title, description, startingPrice, prices, options }) => (
-    <div className="bg-gray-800/50 border border-gray-700 rounded-lg p-6 mb-6 hover:border-blue-400/50 transition">
+    <div className="glass-card p-6 mb-6 hover:border-amber-500/40 transition">
       <div className="mb-4">
-        <h3 className="text-2xl font-bold text-blue-400 mb-2">{title}</h3>
+        <h3 className="text-2xl font-bold text-amber-400 mb-2">{title}</h3>
         {description && (
           <p className="text-gray-300 text-sm mb-3">{description}</p>
         )}
@@ -96,28 +97,17 @@ export default function TarifsLavageAuto() {
     <div className="bg-black text-white min-h-screen">
       <Header />
 
-      {/* HERO - Ajouté pt-36 pour compenser le header fixe */}
-      <section className="pt-36 pb-16 text-center relative">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.12),transparent_55%)]" />
-        <div className="relative z-10 px-4">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4">
-            <span className="text-blue-400">Tarifs</span> Lavage Automobile
-          </h1>
-          <p className="text-xl text-gray-300">
-            Nettoyage professionnel intérieur et extérieur
-          </p>
-        </div>
-      </section>
+      <PageHero
+        accent="amber"
+        title="Tarifs lavage automobile"
+        subtitle="Nettoyage professionnel intérieur et extérieur à Sanguinet"
+      />
 
       {/* CONTENU */}
-      <section className="max-w-6xl mx-auto px-4 py-16">
-        <div className="bg-blue-400/10 border-l-4 border-blue-400 p-6 mb-16 rounded">
-          <h2 className="text-blue-400 font-bold mb-2">
-            ✓ Services Professionnels
-          </h2>
-          <p className="text-gray-300">
-            Matériel haut de gamme & finition premium.
-          </p>
+      <section className="max-w-6xl mx-auto px-4 py-8 pb-16">
+        <div className="glass-card border-l-4 border-l-amber-500/50 p-6 mb-12">
+          <h2 className="text-amber-400 font-bold mb-2">Services professionnels</h2>
+          <p className="text-white/70">Matériel haut de gamme et finition premium.</p>
         </div>
 
         {/* Prestation Médium */}
@@ -173,10 +163,8 @@ export default function TarifsLavageAuto() {
         />
 
         <div className="text-center mt-12">
-          <Link href="/contact">
-            <button className="bg-blue-400 text-black font-bold px-8 py-4 rounded-lg hover:bg-blue-300 transition text-lg">
-              Demander un devis
-            </button>
+          <Link href="/contact" className="btn-amber">
+            Demander un devis
           </Link>
         </div>
       </section>
@@ -207,10 +195,8 @@ export default function TarifsLavageAuto() {
           </div>
 
           <div className="text-center mt-16">
-            <Link href="/contact">
-              <button className="bg-white text-gray-900 font-semibold px-8 py-4 rounded-xl hover:bg-gray-200 transition">
-                Contactez-nous
-              </button>
+            <Link href="/contact" className="btn-secondary">
+              Contactez-nous
             </Link>
           </div>
         </div>

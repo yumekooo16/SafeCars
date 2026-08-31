@@ -1,14 +1,15 @@
 /* globals.css */
 
-/* 1️⃣ Tailwind */
 @import "tailwindcss";
 
-/* 2️⃣ Variables */
 :root {
-  --background: #000000; /* fond noir total */
-  --foreground: #ffffff; /* texte blanc */
+  --background: #000000;
+  --foreground: #ffffff;
   --font-sans: 'Poppins', sans-serif;
-  --font-mono: 'Fira Code', monospace;
+  --accent-blue: #3b82f6;
+  --accent-amber: #f59e0b;
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.04);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,7 +19,6 @@
   }
 }
 
-/* 3️⃣ HTML & Body couvrent tout */
 html, body {
   height: 100%;
   margin: 0;
@@ -26,11 +26,45 @@ html, body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  position: relative; /* pour pseudo-éléments si besoin */
+  position: relative;
 }
 
-/* 4️⃣ Supprimer tous les gradients / effets radiaux si tu veux 100% noir */
 body::before,
 body::after {
-  content: none; /* plus d’effets radiaux */
+  content: none;
+}
+
+@layer components {
+  .glass-card {
+    @apply rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-sm;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-4 font-bold text-white transition-all duration-300 hover:shadow-lg hover:shadow-blue-500/40;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-xl border-2 border-white/25 px-8 py-4 font-semibold text-white transition-all duration-300 hover:border-blue-400 hover:text-blue-400;
+  }
+
+  .btn-amber {
+    @apply inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-amber-500 to-yellow-600 px-8 py-4 font-bold text-black transition-all duration-300 hover:shadow-lg hover:shadow-amber-500/40;
+  }
+
+  .page-gradient-title {
+    @apply bg-gradient-to-r from-white to-blue-500 bg-clip-text text-transparent;
+  }
+
+  .section-label {
+    @apply text-sm font-semibold uppercase tracking-wider text-white/50;
+  }
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-shine {
+  animation: shine 1.5s ease-in-out;
 }

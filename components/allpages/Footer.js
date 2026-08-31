@@ -36,7 +36,7 @@ export default function Footer() {
               <li><Link href="/#services" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Services</Link></li>
               <li><Link href="/nos-ventes" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Nos véhicules</Link></li>
               <li><Link href="/contact" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Contact</Link></li>
-              <li><Link href="/Tarifs-Lavage-auto" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Tarifs lavage auto</Link></li>
+              <li><Link href="/tarifs-lavage-auto" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Tarifs lavage auto</Link></li>
             </ul>
           </div>
 
@@ -56,7 +56,7 @@ export default function Footer() {
             <h4 className="text-white font-bold mb-4">Coordonnées</h4>
             <ul className="space-y-2 text-sm text-white/50 mb-6">
               <li>SIRET : 993 514 090 00014</li>
-              <li>Sanguinet, Landes (40)</li>
+              <li>102 Rue de l&apos;Aiguille, 40460 Sanguinet</li>
               <li>contact@safecars.fr</li>
             </ul>
             
@@ -101,20 +101,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Animation CSS pour l'effet brillant */}
-      <style jsx>{`
-        @keyframes shine {
-          0% {
-            transform: translateX(-100%);
-          }
-          100% {
-            transform: translateX(100%);
-          }
-        }
-        .animate-shine {
-          animation: shine 1.5s ease-in-out;
-        }
-      `}</style>
     </footer>
   );
 }

@@ -2,14 +2,16 @@ import { NextResponse } from 'next/server'
 
 export function middleware(request) {
   const { pathname } = request.nextUrl
-  if (pathname === '/tarifs-lavage-auto') {
+
+  if (pathname === '/Tarifs-Lavage-auto') {
     const url = request.nextUrl.clone()
-    url.pathname = '/Tarifs-Lavage-auto'
+    url.pathname = '/tarifs-lavage-auto'
     return NextResponse.redirect(url, 308)
   }
+
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: ['/tarifs-lavage-auto'],
+  matcher: ['/Tarifs-Lavage-auto'],
 }
