@@ -1,106 +1,98 @@
-'use client';
-
 import Link from 'next/link';
-import Image from "next/image";
-
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-zinc-950 border-t border-white/10">
-      {/* Section principale du footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 mb-8">
-          {/* Colonne 1 : Logo & Description */}
+    <footer className="border-t border-[var(--border)] bg-[var(--surface)] pt-16 pb-10">
+      <div className="sc-container">
+        <p className="font-[family-name:var(--font-display)] text-[clamp(2.5rem,8vw,4.5rem)] leading-[0.95] tracking-[-0.04em] font-medium">
+          SafeCars
+        </p>
+        <p className="mt-3 mb-12 text-[var(--text-muted)] max-w-md">
+          Courtier automobile à Sanguinet — occasions contrôlées, lavage pro et accompagnement sur les Landes et le Bassin d&apos;Arcachon.
+        </p>
+
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <Link href="/" className="flex items-center space-x-3 mb-4 group">
-              <Image 
-                src="/image/Logosafecarsv2.png" 
-                alt="SafeCars — courtier automobile Sanguinet" 
-                width={150} 
-                height={200}
-                priority 
-              />
-            </Link>
-            <p className="text-white/50 text-sm leading-relaxed">
-              Votre courtier automobile de confiance à Sanguinet pour un achat de véhicule sécurisé et sans stress.
-            </p>
+            <p className="text-[0.6875rem] tracking-[0.14em] uppercase text-[var(--text-subtle)] mb-3">Coordonnées</p>
+            <address className="not-italic text-sm text-[var(--text-muted)] space-y-1">
+              <span className="block">102 Rue de l&apos;Aiguille</span>
+              <span className="block">40460 Sanguinet</span>
+            </address>
+            <a href="tel:+33769803889" className="block mt-3 text-sm text-[var(--text)] hover:text-[var(--silver)] transition-colors">
+              07 69 80 38 89
+            </a>
+            <a href="mailto:contact@safecars.fr" className="block mt-1 text-sm text-[var(--text)] hover:text-[var(--silver)] transition-colors">
+              contact@safecars.fr
+            </a>
           </div>
 
-          {/* Colonne 2 : Navigation */}
-          <div>
-            <h4 className="text-white font-bold mb-4">Navigation</h4>
+          <nav aria-label="Navigation">
+            <p className="text-[0.6875rem] tracking-[0.14em] uppercase text-[var(--text-subtle)] mb-3">Explorer</p>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Accueil</Link></li>
-              <li><Link href="/#services" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Services</Link></li>
-              <li><Link href="/nos-ventes" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Nos véhicules</Link></li>
-              <li><Link href="/contact" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Contact</Link></li>
-              <li><Link href="/tarifs-lavage-auto" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Tarifs lavage auto</Link></li>
+              {[
+                ['/', 'Accueil'],
+                ['/nos-ventes', 'Nos véhicules'],
+                ['/services', 'Services'],
+                ['/blog', 'Guides'],
+                ['/contact', 'Contact'],
+                ['/tarifs-lavage-auto', 'Tarifs lavage'],
+              ].map(([href, label]) => (
+                <li key={href}>
+                  <Link href={href} className="text-[var(--text-muted)] hover:text-[var(--text)] transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
+          </nav>
 
-          <div>
-            <h4 className="text-white font-bold mb-4">Services &amp; infos</h4>
+          <nav aria-label="Services">
+            <p className="text-[0.6875rem] tracking-[0.14em] uppercase text-[var(--text-subtle)] mb-3">Services</p>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/services" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Tous les services</Link></li>
-              <li><Link href="/blog" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Guides &amp; blog</Link></li>
-              <li><Link href="/notre-methode" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Notre méthode</Link></li>
-              <li><Link href="/reprise-auto" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Reprise auto</Link></li>
-              <li><Link href="/faq-achat-auto" className="text-white/50 hover:text-blue-500 transition-colors duration-300">FAQ</Link></li>
+              {[
+                ['/notre-methode', 'Notre méthode'],
+                ['/reprise-auto', 'Reprise auto'],
+                ['/financement-voiture-occasion', 'Financement'],
+                ['/faq-achat-auto', 'FAQ'],
+              ].map(([href, label]) => (
+                <li key={href}>
+                  <Link href={href} className="text-[var(--text-muted)] hover:text-[var(--text)] transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Colonne légal & coordonnées */}
-          <div>
-            <h4 className="text-white font-bold mb-4">Coordonnées</h4>
-            <ul className="space-y-2 text-sm text-white/50 mb-6">
-              <li>SIRET : 993 514 090 00014</li>
-              <li>102 Rue de l&apos;Aiguille, 40460 Sanguinet</li>
-              <li>contact@safecars.fr</li>
-            </ul>
-            
-            <h4 className="text-white font-bold mb-4">Légal</h4>
+          <nav aria-label="Légal">
+            <p className="text-[0.6875rem] tracking-[0.14em] uppercase text-[var(--text-subtle)] mb-3">Légal</p>
             <ul className="space-y-2 text-sm">
-              <li><Link href="/pages/mentions-legales" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Mentions légales</Link></li>
-              <li><Link href="/pages/politique-confidentialite" className="text-white/50 hover:text-blue-500 transition-colors duration-300">Confidentialité</Link></li>
-              <li><Link href="/pages/CGU" className="text-white/50 hover:text-blue-500 transition-colors duration-300">CGU</Link></li>
+              {[
+                ['/pages/mentions-legales', 'Mentions légales'],
+                ['/pages/politique-confidentialite', 'Confidentialité'],
+                ['/pages/CGU', 'CGU'],
+              ].map(([href, label]) => (
+                <li key={href}>
+                  <Link href={href} className="text-[var(--text-muted)] hover:text-[var(--text)] transition-colors">
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
+            <p className="mt-4 text-xs text-[var(--text-subtle)]">SIRET 993 514 090 00014</p>
+          </nav>
         </div>
 
-        {/* Séparateur */}
-        <div className="border-t border-white/10 pt-8">
-          {/* Signature Wyatt - Marque de fabrique */}
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            {/* Copyright client */}
-            <p className="text-sm text-white/30 text-center md:text-left">
-              &copy; {currentYear} SafeCars. Tous droits réservés.
-            </p>
-
-            {/* Signature développeur - TA MARQUE DE FABRIQUE */}
-            <div className="flex items-center space-x-3 group">
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-white/40">Fait par </span>
-                <div className="relative">
-                  {/* Badge avec effet hover */}
-                  <div className="flex items-center space-x-2 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 group-hover:border-blue-500/50 transition-all duration-300">
-                    <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-white-600 rounded-full flex items-center justify-center">
-                      <span className="text-black font-black text-xs">W</span>
-                    </div>
-                    <span className="text-white font-bold text-sm">Wyatt</span>
-                  </div>
-                  {/* Effet brillant au hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 group-hover:animate-shine rounded-full pointer-events-none"></div>
-                </div>
-              </div>
-              <span className="text-white/20 text-xs hidden sm:inline">|</span>
-              <span className="text-xs text-white/30 hidden sm:inline">Web Developer</span>
-            </div>
-          </div>
+        <div className="mt-12 pt-6 border-t border-[var(--border)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-xs text-[var(--text-subtle)]">
+          <p>&copy; {year} SafeCars. Tous droits réservés.</p>
+          <p>
+            Conception{' '}
+            <span className="text-[var(--text-muted)]">Wyatt</span>
+          </p>
         </div>
       </div>
-
     </footer>
   );
 }

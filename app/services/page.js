@@ -26,38 +26,31 @@ const links = [
 
 export default function ServicesHubPage() {
   return (
-    <>
+    <div className="sc-page">
       <Header />
-      <main className="bg-black text-white min-h-screen pb-20">
-        <PageHero
-          title="Nos services"
-          subtitle="Achat d'occasion contrôlée, reprise, financement et lavage auto : tout ce que propose SafeCars depuis Sanguinet pour les Landes et le Bassin d'Arcachon."
-        />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 -mt-4">
-          <ul className="grid sm:grid-cols-2 gap-4">
-            {links.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="glass-card block p-5 hover:border-blue-500/50 transition-colors h-full"
-                >
-                  <span className="font-bold text-white text-lg">{item.title}</span>
-                  <p className="text-sm text-white/55 mt-2 leading-relaxed">{item.desc}</p>
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-12 text-center">
-            <Link
-              href="/contact"
-              className="btn-primary"
-            >
-              Nous contacter
-            </Link>
-          </div>
+      <PageHero
+        kicker="Services"
+        title="Nos services"
+        subtitle="Achat d'occasion contrôlée, reprise, financement et lavage auto — tout ce que propose SafeCars depuis Sanguinet."
+      />
+      <main className="sc-container pb-20 -mt-2">
+        <ul className="grid sm:grid-cols-2 gap-4">
+          {links.map((item) => (
+            <li key={item.href}>
+              <Link href={item.href} className="sc-card sc-card-padded block h-full hover:border-[var(--border-accent)] transition-colors">
+                <span className="sc-display text-lg">{item.title}</span>
+                <p className="text-sm sc-muted mt-2 leading-relaxed">{item.desc}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <div className="mt-12">
+          <Link href="/contact" className="sc-btn sc-btn-primary">
+            Nous contacter
+          </Link>
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }

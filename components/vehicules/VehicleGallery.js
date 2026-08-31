@@ -11,7 +11,7 @@ export default function VehicleGallery({ imageUrls, altBase, videoUrls = [] }) {
 
   if (!imageUrls?.length) {
     return (
-      <div className="aspect-video w-full max-w-4xl mx-auto rounded-2xl bg-zinc-800 flex items-center justify-center text-zinc-500">
+      <div className="aspect-video w-full max-w-4xl mx-auto rounded-xl border border-[var(--border)] bg-[var(--surface)] flex items-center justify-center text-[var(--text-subtle)]">
         Aucune photo disponible
       </div>
     )
@@ -22,7 +22,7 @@ export default function VehicleGallery({ imageUrls, altBase, videoUrls = [] }) {
 
   return (
     <div className="space-y-4 max-w-4xl mx-auto">
-      <div className="relative aspect-video w-full overflow-hidden rounded-2xl bg-zinc-900">
+      <div className="relative aspect-video w-full overflow-hidden rounded-xl border border-[var(--border)] bg-[var(--surface-raised)]">
         {!isBroken ? (
           <Image
             src={current}
@@ -35,7 +35,7 @@ export default function VehicleGallery({ imageUrls, altBase, videoUrls = [] }) {
             onError={() => setBroken((b) => ({ ...b, [index]: true }))}
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-zinc-500">Image indisponible</div>
+          <div className="absolute inset-0 flex items-center justify-center text-[var(--text-subtle)]">Image indisponible</div>
         )}
 
         {imageUrls.length > 1 && (
@@ -43,7 +43,7 @@ export default function VehicleGallery({ imageUrls, altBase, videoUrls = [] }) {
             <button
               type="button"
               onClick={() => setIndex((i) => (i === 0 ? imageUrls.length - 1 : i - 1))}
-              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-3 text-white hover:bg-black/80"
+              className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full border border-[var(--border)] bg-[var(--bg)]/80 p-3 text-[var(--text)] hover:border-[var(--border-accent)]"
               aria-label="Photo précédente"
             >
               ‹
@@ -51,12 +51,12 @@ export default function VehicleGallery({ imageUrls, altBase, videoUrls = [] }) {
             <button
               type="button"
               onClick={() => setIndex((i) => (i === imageUrls.length - 1 ? 0 : i + 1))}
-              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full bg-black/60 p-3 text-white hover:bg-black/80"
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-[var(--border)] bg-[var(--bg)]/80 p-3 text-[var(--text)] hover:border-[var(--border-accent)]"
               aria-label="Photo suivante"
             >
               ›
             </button>
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-sm text-white">
+            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 rounded-full border border-[var(--border)] bg-[var(--bg)]/80 px-3 py-1 text-sm text-[var(--text-muted)]">
               {index + 1} / {imageUrls.length}
             </div>
           </>
@@ -71,7 +71,7 @@ export default function VehicleGallery({ imageUrls, altBase, videoUrls = [] }) {
               type="button"
               onClick={() => setIndex(i)}
               className={`relative h-16 w-20 shrink-0 overflow-hidden rounded-lg border-2 transition-colors ${
-                i === index ? 'border-blue-500' : 'border-transparent opacity-70 hover:opacity-100'
+                i === index ? 'border-[var(--silver)]' : 'border-transparent opacity-70 hover:opacity-100'
               }`}
             >
               {!thumbBroken[i] ? (
@@ -85,7 +85,7 @@ export default function VehicleGallery({ imageUrls, altBase, videoUrls = [] }) {
                   unoptimized={url.startsWith('/uploads/')}
                 />
               ) : (
-                <div className="absolute inset-0 bg-zinc-800" />
+                <div className="absolute inset-0 bg-[var(--surface)]" />
               )}
             </button>
           ))}
@@ -101,7 +101,7 @@ export default function VehicleGallery({ imageUrls, altBase, videoUrls = [] }) {
                 key={v + '-' + i}
                 type="button"
                 onClick={() => setPlaying(v)}
-                className="flex items-center gap-2 rounded-lg bg-black/60 px-3 py-2 text-sm text-white hover:bg-black/80"
+                className="flex items-center gap-2 rounded-lg border border-[var(--border)] bg-[var(--surface)] px-3 py-2 text-sm text-[var(--text)] hover:border-[var(--border-accent)]"
               >
                 <span className="w-6 h-6 flex items-center justify-center rounded-full bg-white/10">▶</span>
                 <span>{labels[i] ?? `Vidéo ${i + 1}`}</span>

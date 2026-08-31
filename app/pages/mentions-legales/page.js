@@ -7,35 +7,38 @@ import PageHero from '@/components/ui/PageHero'
 
 function LegalSection({ title, children }) {
   return (
-    <article className="glass-card border-l-4 border-l-blue-500/40 p-6 md:p-8">
-      <h2 className="text-2xl font-bold mb-6 text-white">{title}</h2>
-      <div className="space-y-3 text-white/65 leading-relaxed">{children}</div>
+    <article className="sc-card sc-card-padded border-l-2 border-l-[var(--border-accent)]">
+      <h2 className="sc-display text-xl mb-5">{title}</h2>
+      <div className="space-y-3 text-[var(--text-muted)] leading-relaxed [&_strong]:text-[var(--text)] [&_strong]:font-medium">
+        {children}
+      </div>
     </article>
   )
 }
 
 export default function MentionsLegales() {
   return (
-    <div className="bg-black text-white min-h-screen">
+    <div className="sc-page">
       <Header />
       <PageHero
+        kicker="Informations légales"
         title="Mentions légales"
-        subtitle="Informations légales relatives au site SafeCars, conformément à la loi pour la confiance dans l'économie numérique."
+        subtitle="Informations relatives au site SafeCars, conformément à la loi pour la confiance dans l'économie numérique."
       />
 
-      <section className="max-w-4xl mx-auto px-4 sm:px-6 pb-20 -mt-4">
+      <section className="sc-container pb-20 -mt-2 max-w-3xl">
         <div className="space-y-6">
           <LegalSection title="Éditeur du site">
-            <p><span className="text-white font-medium">Raison sociale :</span> SafeCars</p>
-            <p><span className="text-white font-medium">Forme juridique :</span> SAS (Société par actions simplifiée)</p>
-            <p><span className="text-white font-medium">Siège social :</span> 102 Rue de l&apos;Aiguille, 40460 Sanguinet</p>
-            <p><span className="text-white font-medium">SIREN :</span> 993 514 090</p>
-            <p><span className="text-white font-medium">SIRET (siège) :</span> 993 514 090 00014</p>
-            <p><span className="text-white font-medium">Capital social :</span> 10 000 €</p>
-            <p><span className="text-white font-medium">Email :</span> contact@safecars.fr</p>
-            <p><span className="text-white font-medium">Téléphone :</span> +33 7 69 80 38 89</p>
+            <p><strong>Raison sociale :</strong> SafeCars</p>
+            <p><strong>Forme juridique :</strong> SAS (Société par actions simplifiée)</p>
+            <p><strong>Siège social :</strong> 102 Rue de l&apos;Aiguille, 40460 Sanguinet</p>
+            <p><strong>SIREN :</strong> 993 514 090</p>
+            <p><strong>SIRET (siège) :</strong> 993 514 090 00014</p>
+            <p><strong>Capital social :</strong> 10 000 €</p>
+            <p><strong>Email :</strong> contact@safecars.fr</p>
+            <p><strong>Téléphone :</strong> +33 7 69 80 38 89</p>
             <p>
-              <span className="text-white font-medium">Activité principale :</span> Courtier automobile en véhicules neufs et d&apos;occasion.
+              <strong>Activité principale :</strong> Courtier automobile en véhicules neufs et d&apos;occasion.
             </p>
           </LegalSection>
 
@@ -44,12 +47,12 @@ export default function MentionsLegales() {
           </LegalSection>
 
           <LegalSection title="Hébergement">
-            <p><span className="text-white font-medium">Site internet :</span> www.safecars.fr</p>
-            <p><span className="text-white font-medium">Hébergeur :</span> Vercel Inc.</p>
-            <p><span className="text-white font-medium">Adresse :</span> 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis</p>
+            <p><strong>Site internet :</strong> www.safecars.fr</p>
+            <p><strong>Hébergeur :</strong> Vercel Inc.</p>
+            <p><strong>Adresse :</strong> 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis</p>
             <p>
-              <span className="text-white font-medium">Site web :</span>{' '}
-              <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">
+              <strong>Site web :</strong>{' '}
+              <a href="https://vercel.com" target="_blank" rel="noopener noreferrer" className="sc-link">
                 https://vercel.com
               </a>
             </p>
@@ -67,9 +70,9 @@ export default function MentionsLegales() {
               Conformément au RGPD, vous disposez d&apos;un droit d&apos;accès, de rectification et de suppression des données vous concernant.
             </p>
             <p>
-              Pour exercer ces droits : <span className="text-white">contact@safecars.fr</span>
+              Pour exercer ces droits : <strong>contact@safecars.fr</strong>
             </p>
-            <Link href="/pages/politique-confidentialite" className="inline-block mt-2 text-blue-400 font-semibold hover:underline">
+            <Link href="/pages/politique-confidentialite" className="inline-block mt-2 sc-link font-medium">
               Consulter notre politique de confidentialité
             </Link>
           </LegalSection>
@@ -82,11 +85,11 @@ export default function MentionsLegales() {
           </LegalSection>
 
           <LegalSection title="Crédits">
-            <p><span className="text-white font-medium">Conception et développement :</span> Wyatt — Développeur web freelance</p>
+            <p><strong>Conception et développement :</strong> Wyatt — Développeur web freelance</p>
           </LegalSection>
         </div>
 
-        <p className="mt-12 text-center text-sm text-white/40">
+        <p className="mt-12 text-center text-sm text-[var(--text-subtle)]">
           Données légales extraites du RCS / annonces légales — SIREN : 993 514 090.
         </p>
       </section>

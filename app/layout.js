@@ -1,10 +1,19 @@
-// app/layout.js
 import './globals.css'
-import { Poppins } from 'next/font/google'
+import { Newsreader, Source_Sans_3 } from 'next/font/google'
 
-const poppins = Poppins({
+const newsreader = Newsreader({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+  weight: ['400', '500', '600'],
+  style: ['normal', 'italic'],
+  variable: '--font-newsreader',
+  display: 'swap',
+})
+
+const sourceSans = Source_Sans_3({
+  subsets: ['latin'],
+  weight: ['400', '500', '600'],
+  variable: '--font-source',
+  display: 'swap',
 })
 
 const siteUrl = 'https://www.safecars.fr'
@@ -51,6 +60,7 @@ const jsonLd = {
   email: 'contact@safecars.fr',
   address: {
     '@type': 'PostalAddress',
+    streetAddress: '102 Rue de l\'Aiguille',
     addressLocality: 'Sanguinet',
     addressRegion: 'Nouvelle-Aquitaine',
     postalCode: '40460',
@@ -64,7 +74,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr" className={poppins.className}>
+    <html lang="fr" className={`${newsreader.variable} ${sourceSans.variable}`}>
       <body>
         <script
           type="application/ld+json"
