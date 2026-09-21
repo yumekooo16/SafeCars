@@ -180,3 +180,61 @@ export async function PUT(request) {
     );
   }
 }
+
+// DELETE - Supprimer un message
+export async function DELETE(request) {
+  try {
+    const admin = await checkAuth(request);
+
+    if (!admin) {
+      return NextResponse.json(
+        { error: 'Non authentifié' },
+        { status: 401 }
+      );
+    }
+
+    const body = await request.json().catch(() => ({}));
+    const { searchParams } = new URL(request.url);
+    const id = body.id || searchParams.get('id');
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'ID du message requis' },
+        { status: 400 }
+      );
+    }
+
+    const supabase = getSupabaseClient();
+    const { error } = await supabase
+      .from('contact_messages')
+      .delete()
+      .eq('id', id);
+
+    if (error) {
+      console.error('Erreur Supabase:', error);
+      return NextResponse.json(
+        { error: 'Erreur lors de la suppression' },
+        { status: 500 }
+      );
+    }
+
+    await supabase
+      .from('admin_logs')
+      .insert({
+        admin_id: admin.id,
+        admin_email: admin.email,
+        action: 'delete_message',
+        entity_type: 'contact_message',
+        entity_id: id,
+        details: { success: true },
+      });
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Erreur lors de la suppression:', error);
+    return NextResponse.json(
+      { error: 'Erreur serveur' },
+      { status: 500 }
+    );
+  }
+}

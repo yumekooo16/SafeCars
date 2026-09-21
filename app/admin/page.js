@@ -807,6 +807,8 @@ function ManageMessages() {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [deleteConfirmId, setDeleteConfirmId] = useState(null);
+  const [deleting, setDeleting] = useState(false);
 
   const fetchMessages = async () => {
     setLoading(true);
@@ -844,11 +846,34 @@ function ManageMessages() {
     }
   };
 
+  const deleteMessage = async (id) => {
+    setDeleting(true);
+    setError('');
+    try {
+      const res = await fetch('/api/message', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ id }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Suppression impossible');
+      }
+      setDeleteConfirmId(null);
+      setMessages((prev) => prev.filter((m) => m.id !== id));
+    } catch (err) {
+      setError(err.message || 'Erreur lors de la suppression');
+    } finally {
+      setDeleting(false);
+    }
+  };
+
   if (loading) {
     return <p className="text-gray-300">Chargement des messages…</p>;
   }
 
-  if (error) {
+  if (error && !messages.length) {
     return (
       <div className="space-y-3">
         <p className="text-red-300">{error}</p>
@@ -882,6 +907,10 @@ function ManageMessages() {
         </button>
       </div>
 
+      {error && (
+        <p className="text-red-300 text-sm">{error}</p>
+      )}
+
       <div className="space-y-3">
         {messages.map((m) => (
           <article
@@ -900,7 +929,7 @@ function ManageMessages() {
                   {m.status ? ` · ${m.status}` : ''}
                 </p>
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 {m.status !== 'read' && (
                   <button
                     type="button"
@@ -917,6 +946,34 @@ function ManageMessages() {
                     className="px-2 py-1 text-xs bg-blue-700 text-white rounded hover:bg-blue-600"
                   >
                     Répondu
+                  </button>
+                )}
+                {deleteConfirmId === m.id ? (
+                  <>
+                    <button
+                      type="button"
+                      disabled={deleting}
+                      onClick={() => deleteMessage(m.id)}
+                      className="px-2 py-1 text-xs bg-red-600 text-white rounded hover:bg-red-500 disabled:opacity-50"
+                    >
+                      {deleting ? '…' : 'Confirmer'}
+                    </button>
+                    <button
+                      type="button"
+                      disabled={deleting}
+                      onClick={() => setDeleteConfirmId(null)}
+                      className="px-2 py-1 text-xs bg-gray-600 text-white rounded hover:bg-gray-500"
+                    >
+                      Annuler
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setDeleteConfirmId(m.id)}
+                    className="px-2 py-1 text-xs bg-red-800 text-white rounded hover:bg-red-700"
+                  >
+                    Supprimer
                   </button>
                 )}
               </div>
