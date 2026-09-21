@@ -803,11 +803,166 @@ function ManageVehicules() {
   );
 }
 
+function ManageMessages() {
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const fetchMessages = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const res = await fetch('/api/message', { credentials: 'include' });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Impossible de charger les messages');
+      }
+      setMessages(data.messages || []);
+    } catch (err) {
+      setError(err.message || 'Erreur réseau');
+      setMessages([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
+  const markStatus = async (id, status) => {
+    try {
+      const res = await fetch('/api/message', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ id, status }),
+      });
+      if (res.ok) fetchMessages();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (loading) {
+    return <p className="text-gray-300">Chargement des messages…</p>;
+  }
+
+  if (error) {
+    return (
+      <div className="space-y-3">
+        <p className="text-red-300">{error}</p>
+        <button
+          type="button"
+          onClick={fetchMessages}
+          className="px-3 py-2 bg-blue-600 text-white rounded text-sm"
+        >
+          Réessayer
+        </button>
+      </div>
+    );
+  }
+
+  if (!messages.length) {
+    return <p className="text-gray-400">Aucun message pour le moment.</p>;
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between gap-3">
+        <h2 className="text-xl text-white font-semibold">
+          Messages contact ({messages.length})
+        </h2>
+        <button
+          type="button"
+          onClick={fetchMessages}
+          className="px-3 py-2 bg-gray-700 text-white rounded text-sm hover:bg-gray-600"
+        >
+          Actualiser
+        </button>
+      </div>
+
+      <div className="space-y-3">
+        {messages.map((m) => (
+          <article
+            key={m.id}
+            className="border border-gray-700 rounded p-4 bg-gray-900/60"
+          >
+            <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
+              <div>
+                <p className="text-white font-semibold">{m.subject || 'Sans sujet'}</p>
+                <p className="text-gray-400 text-sm">
+                  {m.created_at
+                    ? new Date(m.created_at).toLocaleString('fr-FR', {
+                        timeZone: 'Europe/Paris',
+                      })
+                    : '—'}
+                  {m.status ? ` · ${m.status}` : ''}
+                </p>
+              </div>
+              <div className="flex gap-2">
+                {m.status !== 'read' && (
+                  <button
+                    type="button"
+                    onClick={() => markStatus(m.id, 'read')}
+                    className="px-2 py-1 text-xs bg-gray-700 text-white rounded hover:bg-gray-600"
+                  >
+                    Lu
+                  </button>
+                )}
+                {m.status !== 'replied' && (
+                  <button
+                    type="button"
+                    onClick={() => markStatus(m.id, 'replied')}
+                    className="px-2 py-1 text-xs bg-blue-700 text-white rounded hover:bg-blue-600"
+                  >
+                    Répondu
+                  </button>
+                )}
+              </div>
+            </div>
+
+            <div className="grid sm:grid-cols-3 gap-2 text-sm mb-3">
+              <p className="text-gray-300">
+                <span className="text-gray-500">Nom : </span>
+                {m.name || '—'}
+              </p>
+              <p className="text-gray-300 break-all">
+                <span className="text-gray-500">Email : </span>
+                {m.email ? (
+                  <a href={`mailto:${m.email}`} className="text-blue-400 hover:underline">
+                    {m.email}
+                  </a>
+                ) : (
+                  '—'
+                )}
+              </p>
+              <p className="text-gray-300">
+                <span className="text-gray-500">Tél : </span>
+                {m.phone ? (
+                  <a href={`tel:${m.phone}`} className="text-blue-400 hover:underline">
+                    {m.phone}
+                  </a>
+                ) : (
+                  '—'
+                )}
+              </p>
+            </div>
+
+            <p className="text-gray-200 whitespace-pre-wrap text-sm">{m.message}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Admin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [adminTab, setAdminTab] = useState('vehicules');
 
   useEffect(() => {
     fetch("/api/login", { method: "GET" })
@@ -862,8 +1017,33 @@ export default function Admin() {
             </button>
           </div>
 
+          <div className="flex gap-2 mb-4">
+            <button
+              type="button"
+              onClick={() => setAdminTab('vehicules')}
+              className={`px-4 py-2 rounded text-sm font-medium ${
+                adminTab === 'vehicules'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              Véhicules
+            </button>
+            <button
+              type="button"
+              onClick={() => setAdminTab('messages')}
+              className={`px-4 py-2 rounded text-sm font-medium ${
+                adminTab === 'messages'
+                  ? 'bg-blue-600 text-white'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              Messages contact
+            </button>
+          </div>
+
           <div className="bg-gray-800 rounded p-6">
-            <ManageVehicules />
+            {adminTab === 'vehicules' ? <ManageVehicules /> : <ManageMessages />}
           </div>
         </div>
       ) : (
