@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import Header from '@/components/allpages/Header';
 import Footer from '@/components/allpages/Footer';
-import { supabase } from '@/lib/supabase';
-import { buildContactWhatsAppUrl } from '@/lib/whatsapp';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -36,12 +34,10 @@ export default function ContactPage() {
     setWhatsappUrl('');
 
     try {
-      // Validation basique
       if (!formData.name || !formData.email || !formData.subject || !formData.message) {
         throw new Error('Veuillez remplir tous les champs obligatoires');
       }
 
-      // Validation email
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(formData.email)) {
         throw new Error('Veuillez entrer une adresse email valide');
@@ -55,23 +51,25 @@ export default function ContactPage() {
         message: formData.message.trim(),
       };
 
-      // Enregistrer dans Supabase
-      const { error: supabaseError } = await supabase
-        .from('contact_messages')
-        .insert([
-          {
-            ...payload,
-            status: 'new',
-            priority: 'normal',
-          }
-        ]);
+      // Enregistrement + notification WhatsApp (API serveur)
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || "Erreur lors de l'envoi");
+      }
 
-      if (supabaseError) throw supabaseError;
+      const waUrl = data.whatsappUrl;
+      setWhatsappUrl(waUrl || '');
 
-      // Ouvrir WhatsApp avec le message prérempli (numéro SafeCars)
-      const waUrl = buildContactWhatsAppUrl(payload);
-      setWhatsappUrl(waUrl);
-      window.open(waUrl, '_blank', 'noopener,noreferrer');
+      // Si la notif serveur n'a pas pu partir, ouvrir WhatsApp pour finaliser l'envoi
+      if (!data.whatsappSent && waUrl) {
+        window.location.assign(waUrl);
+        return;
+      }
 
       setSuccess(true);
       setFormData({
@@ -81,9 +79,8 @@ export default function ContactPage() {
         subject: '',
         message: '',
       });
-
     } catch (err) {
-      console.error('Erreur lors de l\'envoi:', err);
+      console.error("Erreur lors de l'envoi:", err);
       setError(err.message || 'Une erreur est survenue. Veuillez réessayer.');
     } finally {
       setLoading(false);
@@ -126,9 +123,9 @@ export default function ContactPage() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
                       <div className="flex-1">
-                        <p className="text-green-500 font-bold">Message enregistré !</p>
+                        <p className="text-green-500 font-bold">Message envoyé !</p>
                         <p className="text-green-500/80 text-sm mt-1">
-                          WhatsApp s&apos;ouvre pour finaliser l&apos;envoi vers SafeCars.
+                          Une notification WhatsApp a été transmise à SafeCars.
                         </p>
                         {whatsappUrl && (
                           <a
