@@ -5,8 +5,6 @@ import { cookies } from 'next/headers';
 export async function POST(request) {
   try {
     const body = await request.json();
-    
-    console.log('Données reçues:', body);
 
     // Validation des champs obligatoires
     if (!body.marque || !body.modele || !body.annee || !body.prix || !body.kilometrage || !body.carburant || !body.transmission) {
@@ -80,8 +78,6 @@ export async function POST(request) {
   statut: statut,
   is_featured: body.is_featured || false  // <--- ajouté
 };
-
-    console.log('Données à insérer:', vehicleData);
 
     // Insérer
     const { data, error } = await supabase

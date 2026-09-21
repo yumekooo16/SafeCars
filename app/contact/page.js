@@ -223,7 +223,11 @@ export default function ContactPage() {
                     >
                       <option value="" className="bg-black text-white/50">Sélectionnez un sujet</option>
                       <option value="Achat de véhicule" className="bg-black text-white">Achat de véhicule</option>
+                      <option value="Essai routier" className="bg-black text-white">Essai routier</option>
+                      <option value="Reprise auto" className="bg-black text-white">Reprise auto</option>
+                      <option value="Financement" className="bg-black text-white">Financement</option>
                       <option value="Lavage auto" className="bg-black text-white">Lavage auto</option>
+                      <option value="Autre demande" className="bg-black text-white">Autre demande</option>
                     </select>
                   </div>
 

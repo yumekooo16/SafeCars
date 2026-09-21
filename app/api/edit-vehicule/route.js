@@ -15,9 +15,6 @@ export async function PUT(request) {
     }
 
     const body = await request.json();
-    
-    console.log('📥 Données reçues pour modification:', body);
-    console.log('🔍 Statut reçu:', body.statut);
 
     // Validation des champs obligatoires
     const requiredFields = ['marque', 'modele', 'annee', 'prix', 'kilometrage', 'carburant', 'transmission'];
@@ -95,9 +92,6 @@ export async function PUT(request) {
       is_featured: body.is_featured || false
     };
 
-    console.log('💾 Données à mettre à jour:', vehicleData);
-    console.log('📊 Statut final avant envoi:', vehicleData.statut);
-
     // Mettre à jour
     const { data, error } = await supabase
       .from('vehicules')
@@ -113,9 +107,6 @@ export async function PUT(request) {
         { status: 400 }
       );
     }
-
-    console.log('✅ Véhicule modifié avec succès:', data[0]);
-    console.log('✅ Statut enregistré dans la BDD:', data[0]?.statut);
 
     return NextResponse.json(
       { success: true, message: 'Véhicule modifié', data: data[0] },

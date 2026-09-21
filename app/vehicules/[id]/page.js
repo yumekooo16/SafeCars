@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 import Header from '@/components/allpages/Header'
 import Footer from '@/components/allpages/Footer'
 import VehicleGallery from '@/components/vehicules/VehicleGallery'
-import VehicleReservationCard from '@/components/vehicules/VehicleReservationCard'
 import { fetchVehiculeById } from '@/lib/vehicules'
 import { getVehicleImageUrl } from '@/lib/vehicleImageUrl'
 
@@ -164,7 +163,21 @@ export default async function VehiculePage({ params }) {
             <p className="mt-10 text-white/60 leading-relaxed">{fallbackDescription}</p>
           )}
 
-          {!isVendu && !isReserve ? <VehicleReservationCard vehicle={vehicle} /> : null}
+          {!isVendu && !isReserve ? (
+            <section className="mt-10 rounded-2xl border border-blue-500/30 bg-gradient-to-b from-blue-500/10 to-black p-6 sm:p-8 text-center">
+              <p className="text-xs uppercase tracking-[0.2em] text-blue-300">Essai & contact</p>
+              <h2 className="mt-2 text-2xl font-black sm:text-3xl">Intéressé par ce véhicule ?</h2>
+              <p className="mx-auto mt-3 max-w-xl text-white/75">
+                Contactez-nous pour organiser un essai, obtenir plus d&apos;informations ou discuter d&apos;une reprise.
+              </p>
+              <Link
+                href="/contact"
+                className="mt-6 inline-flex justify-center rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 px-8 py-4 font-bold text-white hover:shadow-lg hover:shadow-blue-500/40 transition-all"
+              >
+                Nous contacter
+              </Link>
+            </section>
+          ) : null}
 
           <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
             <Link

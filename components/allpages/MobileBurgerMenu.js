@@ -87,7 +87,7 @@ export default function MobileBurgerMenu() {
           </Link>
 
           <Link 
-            href="/Tarifs-Lavage-auto" 
+            href="/tarifs-lavage-auto" 
             onClick={closeMenu}
             className="text-3xl font-bold text-white hover:text-amber-500 transition-colors duration-300"
           >

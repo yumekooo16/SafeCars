@@ -40,10 +40,6 @@ function ManageVehicules() {
       const res = await fetch('/api/vehicule');
       if (res.ok) {
         const data = await res.json();
-        console.log('📥 Véhicules récupérés:', data); // DEBUG
-        if (data && data.length > 0) {
-          console.log('📊 Statut du premier véhicule:', data[0].statut); // DEBUG
-        }
         setVehicules(data);
       }
     } catch (error) {
@@ -95,7 +91,6 @@ function ManageVehicules() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log('🔄 Input change:', name, '=', value); // DEBUG
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -246,8 +241,6 @@ function ManageVehicules() {
     setErrorMessage('');
     setSuccessMessage('');
     
-    console.log('📤 Soumission formData:', formData); // DEBUG
-    
     if (!validateForm()) {
       return;
     }
@@ -256,9 +249,6 @@ function ManageVehicules() {
       const url = editingVehicle 
         ? `/api/edit-vehicule?id=${editingVehicle.id}`
         : '/api/add-vehicule';
-      
-      console.log('📡 Envoi vers:', url, formData); // DEBUG
-      console.log('📊 Statut dans formData:', formData.statut); // DEBUG
       
       const res = await fetch(url, {
         method: editingVehicle ? 'PUT' : 'POST',
@@ -269,8 +259,6 @@ function ManageVehicules() {
       if (res.ok) {
         try {
           const responseData = await res.json();
-          console.log('✅ Réponse serveur:', responseData); // DEBUG
-          console.log('✅ Statut dans la réponse:', responseData.data?.statut); // DEBUG
           setSuccessMessage(editingVehicle ? 'Véhicule modifié avec succès' : 'Véhicule ajouté avec succès');
           // Rafraîchir la liste des véhicules immédiatement
           await fetchVehicules();
@@ -316,7 +304,6 @@ function ManageVehicules() {
   };
 
   const handleEdit = (vehicle) => {
-    console.log('✏️ Édition véhicule:', vehicle); // DEBUG
     setEditingVehicle(vehicle);
     const newFormData = {
       marque: vehicle.marque,
@@ -332,7 +319,6 @@ function ManageVehicules() {
       statut: vehicle.statut || 'disponible',
       videos: vehicle.videos || [null, null, null]
     };
-    console.log('📝 FormData après édition:', newFormData); // DEBUG
     setFormData(newFormData);
     setShowForm(true);
     setErrorMessage('');

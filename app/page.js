@@ -83,7 +83,7 @@ export default function HomePage() {
             <p className="text-lg md:text-xl text-gray-300 font-light max-w-2xl leading-relaxed">
               Nous sélectionnons et contrôlons chaque véhicule avant mise en vente. Vous pouvez aussi confier
               l&apos;entretien esthétique de votre auto à notre{' '}
-              <Link href="/Tarifs-Lavage-auto" className="text-blue-400 underline-offset-4 hover:underline">
+              <Link href="/tarifs-lavage-auto" className="text-blue-400 underline-offset-4 hover:underline">
                 service de lavage professionnel
               </Link>
               .
@@ -248,7 +248,7 @@ export default function HomePage() {
           </p>
           <p>
             En parallèle de la vente, nous proposons un{' '}
-            <Link href="/Tarifs-Lavage-auto" className="text-blue-400 hover:underline underline-offset-4">
+            <Link href="/tarifs-lavage-auto" className="text-blue-400 hover:underline underline-offset-4">
               lavage automobile intérieur et extérieur
             </Link>{' '}
             (prestations medium, premium ou gold) pour préserver la valeur et le confort de votre véhicule.

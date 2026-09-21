@@ -19,7 +19,7 @@ export default async function sitemap() {
     '/livraison-vehicule',
     '/faq-achat-auto',
     '/lavage-auto-professionnel-sanguinet',
-    '/Tarifs-Lavage-auto',
+    '/tarifs-lavage-auto',
     '/pages/mentions-legales',
     '/pages/politique-confidentialite',
     '/pages/CGU',

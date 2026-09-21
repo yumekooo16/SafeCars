@@ -38,7 +38,7 @@ export function NotreMethodeBody() {
       <p>
         Retrouvez nos engagements sur la <Link href="/garantie-occasion">garantie</Link> et la{' '}
         <Link href="/faq-achat-auto">FAQ</Link>. Pour l&apos;entretien esthétique, nos{' '}
-        <Link href="/Tarifs-Lavage-auto">tarifs de lavage</Link> complètent souvent le suivi de votre
+        <Link href="/tarifs-lavage-auto">tarifs de lavage</Link> complètent souvent le suivi de votre
         véhicule.
       </p>
       <p>
@@ -259,7 +259,7 @@ export function FaqBody() {
       <h2>Faites-vous du lavage auto ?</h2>
       <p>
         Oui : <Link href="/lavage-auto-professionnel-sanguinet">lavage professionnel</Link> et{' '}
-        <Link href="/Tarifs-Lavage-auto">grille tarifaire</Link>.
+        <Link href="/tarifs-lavage-auto">grille tarifaire</Link>.
       </p>
       <h2>Comment vous écrire ?</h2>
       <p>
@@ -282,7 +282,7 @@ export function LavageProBody() {
       <p>
         Produits professionnels, finitions soignées, fourchettes de temps réalistes. Les{' '}
         <strong>tarifs détaillés</strong> (medium, premium, gold, extérieur) sont sur la page{' '}
-        <Link href="/Tarifs-Lavage-auto">Tarifs lavage auto</Link> — consultez-la pour chiffrer votre
+        <Link href="/tarifs-lavage-auto">Tarifs lavage auto</Link> — consultez-la pour chiffrer votre
         prestation.
       </p>
       <h2>Pourquoi confier l&apos;intérieur à un pro ?</h2>

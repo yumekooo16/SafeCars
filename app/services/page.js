@@ -11,14 +11,14 @@ export const metadata = {
 
 const links = [
   { href: '/notre-methode', title: 'Notre méthode', desc: 'Comment nous sélectionnons et contrôlons les occasions.' },
-  // { href: '/reprise-auto', title: 'Reprise auto', desc: 'Estimation et reprise de votre ancien véhicule.' },
+  { href: '/reprise-auto', title: 'Reprise auto', desc: 'Estimation et reprise de votre ancien véhicule.' },
   { href: '/financement-voiture-occasion', title: 'Financement', desc: 'Comptant ou crédit : structurer votre budget.' },
   { href: '/garantie-occasion', title: 'Garantie', desc: 'Ce qu’il faut savoir sur la garantie occasion.' },
   { href: '/zone-intervention-landes', title: 'Zone d’intervention', desc: 'Landes, Bassin d’Arcachon et alentours.' },
   { href: '/livraison-vehicule', title: 'Remise du véhicule', desc: 'Organisation de la livraison et des documents.' },
   { href: '/pourquoi-courtier-auto-sanguinet', title: 'Courtier à Sanguinet', desc: 'Pourquoi choisir un courtier local.' },
   { href: '/lavage-auto-professionnel-sanguinet', title: 'Lavage professionnel', desc: 'Nettoyage intérieur / extérieur.' },
-  { href: '/Tarifs-Lavage-auto', title: 'Grille tarifaire lavage', desc: 'Tarifs medium, premium, gold et options.' },
+  { href: '/tarifs-lavage-auto', title: 'Grille tarifaire lavage', desc: 'Tarifs medium, premium, gold et options.' },
   { href: '/faq-achat-auto', title: 'FAQ', desc: 'Réponses aux questions fréquentes.' },
   { href: '/blog', title: 'Guides & blog', desc: 'Articles sur l’achat d’occasion et les arnaques.' },
 ]

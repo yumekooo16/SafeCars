@@ -40,7 +40,7 @@ export default function MentionsLegales() {
               <p><span className="text-white">Forme juridique :</span> SAS (Société par actions simplifiée)</p>
               <p><span className="text-white">Siège social :</span> 102 Rue de l&apos;Aiguille, 40460 Sanguinet</p>
               <p><span className="text-white">SIREN :</span> 993 514 090</p>
-              <p><span className="text-white">SIRET (siège) :</span> 993 514 090 00013</p>
+              <p><span className="text-white">SIRET (siège) :</span> 993 514 090 00014</p>
               <p><span className="text-white">Capital social :</span> 10 000 €</p>
               <p><span className="text-white">Email :</span> contact@safecars.fr</p>
               <p><span className="text-white">Téléphone :</span> +33 7 69 80 38 89</p>
@@ -56,7 +56,7 @@ export default function MentionsLegales() {
               Directeur de publication
             </h2>
             <p className="text-gray-400 font-light leading-relaxed">
-              [Nom du Président ou Directeur], Président — données déclarées au RCS.
+              Damien Camus, Président de SAS — données déclarées au RCS Mont-de-Marsan.
             </p>
           </article>
 
