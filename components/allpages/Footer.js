@@ -56,7 +56,7 @@ export default function Footer() {
             <h4 className="text-white font-bold mb-4">Coordonnées</h4>
             <ul className="space-y-2 text-sm text-white/50 mb-6">
               <li>SIRET : 993 514 090 00014</li>
-              <li>Sanguinet, Landes (40)</li>
+              <li>102 rue de l&apos;Aiguille, 40460 Sanguinet</li>
               <li>contact@safecars.fr</li>
             </ul>
             

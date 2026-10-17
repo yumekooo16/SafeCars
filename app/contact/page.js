@@ -346,7 +346,8 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <p className="text-sm text-white/50 mb-1">Adresse</p>
-                      <p className="text-lg font-bold text-white">Sanguinet, Landes (40)</p>
+                      <p className="text-lg font-bold text-white">102 rue de l&apos;Aiguille</p>
+                      <p className="text-white/70">40460 Sanguinet</p>
                     </div>
                   </div>
                 </div>

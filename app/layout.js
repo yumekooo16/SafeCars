@@ -51,6 +51,7 @@ const jsonLd = {
   email: 'contact@safecars.fr',
   address: {
     '@type': 'PostalAddress',
+    streetAddress: '102 rue de l\'Aiguille',
     addressLocality: 'Sanguinet',
     addressRegion: 'Nouvelle-Aquitaine',
     postalCode: '40460',
