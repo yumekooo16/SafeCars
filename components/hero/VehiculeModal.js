@@ -4,6 +4,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { getVehicleImageUrl } from '@/lib/vehicleImageUrl';
 
@@ -77,10 +78,13 @@ export default function VehicleModal({ vehicle, onClose, getImageUrl }) {
               {/* Image principale */}
               <div className="relative aspect-video bg-gray-800 rounded-xl overflow-hidden">
                 {currentImageUrl && !imageErrors[currentImageIndex] ? (
-                  <img
+                  <Image
                     src={currentImageUrl}
                     alt={`${vehicle.marque} ${vehicle.modele}`}
-                    className="w-full h-full object-cover cursor-zoom-in"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 640px"
+                    quality={75}
+                    className="object-cover cursor-zoom-in"
                     onError={() => handleImageError(currentImageIndex)}
                     onClick={() => setZoomedImage(currentImageUrl)}
                   />
@@ -123,17 +127,20 @@ export default function VehicleModal({ vehicle, onClose, getImageUrl }) {
                       <button
                         key={index}
                         onClick={() => setCurrentImageIndex(index)}
-                        className={`aspect-square rounded-lg overflow-hidden border-2 ${
+                        className={`relative aspect-square rounded-lg overflow-hidden border-2 ${
                           index === currentImageIndex
                             ? 'border-blue-500'
                             : 'border-transparent hover:border-gray-600'
                         }`}
                       >
                         {thumbUrl && !imageErrors[`thumb-${index}`] ? (
-                          <img
+                          <Image
                             src={thumbUrl}
                             alt={`Photo ${index + 1}`}
-                            className="w-full h-full object-cover"
+                            fill
+                            sizes="96px"
+                            quality={60}
+                            className="object-cover"
                             onError={() => handleImageError(`thumb-${index}`)}
                           />
                         ) : (

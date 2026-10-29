@@ -50,12 +50,13 @@ export default function HomePage() {
       <section className="relative w-full min-h-screen overflow-hidden bg-black">
         <div className="absolute inset-0">
           <Image
-            src="/image/Vente_de_voitures_en_journée.png"
+            src="/image/Vente_de_voitures_en_journée.webp"
             alt="SafeCars — vente de véhicules d'occasion contrôlés, Sanguinet"
             fill
             priority
             className="object-cover object-center"
             sizes="100vw"
+            quality={80}
           />
         </div>
 
@@ -169,10 +170,13 @@ export default function HomePage() {
                     }`}
                   >
                     {imageUrl && !imageErrors[vehicle.id] ? (
-                      <img
+                      <Image
                         src={imageUrl}
                         alt={`${vehicle.marque} ${vehicle.modele}`}
-                        className={`absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ${
+                        fill
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        quality={70}
+                        className={`object-cover group-hover:scale-110 transition-transform duration-700 ${
                           isVendu ? 'grayscale' : ''
                         }`}
                         onError={() => handleImageError(vehicle.id)}

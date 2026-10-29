@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { supabase } from '@/lib/supabase';
 import { getVehicleImageUrl } from '@/lib/vehicleImageUrl';
 import VehiculeModal from './VehiculeModal';
@@ -78,14 +79,18 @@ export default function VehicleGallery({ featuredOnly = true, limit = 3, columns
               const imageUrl = imagePath ? getVehicleImageUrl(imagePath) : null;
               
               return imageUrl ? (
-                <img
+                <Image
                   src={imageUrl}
                   alt={`${vehicule.brand || vehicule.marque} ${vehicule.model || vehicule.modele}`}
+                  width={800}
+                  height={512}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  quality={70}
                   className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-500"
                 />
               ) : (
                 <div className="w-full h-64 bg-gray-700 flex items-center justify-center text-white">
-                  Pas d'image
+                  Pas d&apos;image
                 </div>
               );
             })()}

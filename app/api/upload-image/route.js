@@ -1,5 +1,6 @@
 import { put } from '@vercel/blob';
 import { NextResponse } from 'next/server';
+import { optimizeImageUpload } from '@/lib/optimizeImage';
 
 export async function POST(request) {
   try {
@@ -11,20 +12,20 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Aucun fichier' }, { status: 400 });
     }
 
-    // Générer un nom de fichier unique
-    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-    const safeName = file.name ? file.name.replace(/[^a-zA-Z0-9.\-\_]/g, '_') : 'upload'
-    const filename = `vehicule-${uniqueSuffix}-${safeName}`;
+    const optimized = await optimizeImageUpload(file);
 
-    // Upload vers Vercel Blob
-    const blob = await put(filename, file, {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const filename = `vehicule-${uniqueSuffix}.${optimized.extension}`;
+
+    const blob = await put(filename, optimized.buffer, {
       access: 'public',
+      contentType: optimized.contentType,
     });
 
     return NextResponse.json({ 
       success: true, 
       url: blob.url,
-      contentType: file.type || null,
+      contentType: optimized.contentType,
     });
 
   } catch (error) {

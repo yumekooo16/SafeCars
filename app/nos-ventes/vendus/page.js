@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { supabaseClient } from '@/lib/supabaseClient';
 import { getVehicleImageUrl } from '@/lib/vehicleImageUrl';
 import Header from '@/components/allpages/Header.js';
@@ -93,10 +94,13 @@ export default function VehiculesVendus() {
                         className="group relative aspect-square rounded-2xl overflow-hidden block opacity-60"
                       >
                         {imageUrl && !imageErrors[vehicle.id] ? (
-                          <img
+                          <Image
                             src={imageUrl}
                             alt={`${vehicle.marque} ${vehicle.modele}`}
-                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale"
+                            fill
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                            quality={70}
+                            className="object-cover group-hover:scale-110 transition-transform duration-700 grayscale"
                             onError={() => handleImageError(vehicle.id)}
                           />
                         ) : (
