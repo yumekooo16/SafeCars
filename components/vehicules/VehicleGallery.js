@@ -30,8 +30,8 @@ export default function VehicleGallery({ imageUrls, altBase, videoUrls = [] }) {
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 896px"
-            priority
-            unoptimized={current.startsWith('/uploads/')}
+            priority={index === 0}
+            quality={75}
             onError={() => setBroken((b) => ({ ...b, [index]: true }))}
           />
         ) : (
@@ -81,8 +81,8 @@ export default function VehicleGallery({ imageUrls, altBase, videoUrls = [] }) {
                   fill
                   className="object-cover"
                   sizes="80px"
+                  quality={60}
                   onError={() => setThumbBroken((b) => ({ ...b, [i]: true }))}
-                  unoptimized={url.startsWith('/uploads/')}
                 />
               ) : (
                 <div className="absolute inset-0 bg-zinc-800" />

@@ -55,11 +55,12 @@ export default function Header() {
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3 group">
               <Image 
-                src="/image/Logosafecarsv2.png" 
+                src="/image/Logosafecarsv2.webp" 
                 alt="SafeCars — courtier automobile Sanguinet" 
                 width={150} 
-                height={200}
+                height={100}
                 priority
+                sizes="150px"
               />
             </Link>
 

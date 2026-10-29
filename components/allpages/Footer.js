@@ -16,11 +16,11 @@ export default function Footer() {
           <div>
             <Link href="/" className="flex items-center space-x-3 mb-4 group">
               <Image 
-                src="/image/Logosafecarsv2.png" 
+                src="/image/Logosafecarsv2.webp" 
                 alt="SafeCars — courtier automobile Sanguinet" 
                 width={150} 
-                height={200}
-                priority 
+                height={100}
+                sizes="150px"
               />
             </Link>
             <p className="text-white/50 text-sm leading-relaxed">
